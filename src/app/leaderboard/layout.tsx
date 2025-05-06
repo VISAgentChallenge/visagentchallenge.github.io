@@ -10,7 +10,7 @@ export default async function LeaderboardLayout({
 }) {
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
-  
+
   return (
     <div className="flex flex-col">
       <SidebarProvider defaultOpen={defaultOpen}>
@@ -20,7 +20,6 @@ export default async function LeaderboardLayout({
             <SidebarTrigger />
             <TopNavBar />
           </div>
-
           {children}
         </main>
       </SidebarProvider>

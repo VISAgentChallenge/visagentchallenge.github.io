@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DemoPlz - Evaluation Server",
+  title: "VIS workshop - Evaluation Server",
   description: "The evaluation server for generative agents workshop",
 };
 

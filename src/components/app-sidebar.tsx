@@ -31,10 +31,10 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className="pl-3">
         <SidebarGroup>
           <SidebarGroupLabel className="h-[62px] rounded-none w-full font-bold text-lg">
-            Agent Leaderboard
+            VIS workshop
           </SidebarGroupLabel>
           <SidebarGroupContent className="pt-11">
             <SidebarMenu>
