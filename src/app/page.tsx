@@ -2,7 +2,7 @@ import Image from "next/image";
 import { auth } from "../auth";
 import SignIn from "@/components/sign-in";
 import { redirect } from "next/navigation";
-import TopNavBar from "@/components/TopNavBar";
+import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { LeaderboardTable } from "@/components/LeaderboardTable";
 import Footer from "@/components/Footer";
@@ -61,8 +61,6 @@ export default async function LandingPage() {
   ];
   return (
     <>
-      {/* top nav bar */}
-      <TopNavBar />
       {/* content section */}
       <div className="py-12 px-4">
         <div className="flex flex-col max-w-5xl mx-auto gap-24">

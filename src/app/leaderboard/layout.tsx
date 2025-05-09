@@ -1,4 +1,4 @@
-import TopNavBar from "@/components/TopNavBar";
+import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { cookies } from "next/headers";
@@ -18,7 +18,7 @@ export default async function LeaderboardLayout({
         <main className="w-full flex flex-col">
           <div className="flex flex-row items-center px-4 border-b">
             <SidebarTrigger />
-            <TopNavBar />
+            <TopNavBarWrapper  />
           </div>
           {children}
         </main>
