@@ -39,7 +39,7 @@ export default function TopNavBar({ session }: { session: any }) {
             <span>Challenge</span>
           </Button>
           {session?.user && (
-            <Button variant={"ghost"}>
+            <Button variant={"ghost"} onClick={() => redirect("/home")}>
               <UserRound className="h-5 w-5" />
               <span>Home</span>
             </Button>
