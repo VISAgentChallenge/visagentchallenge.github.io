@@ -8,10 +8,5 @@ export default function ChallengeLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex flex-col">
-      <div>{`challenge layout`}</div>
-      {children}
-    </div>
-  );
+  return <div className="flex flex-col">{children}</div>;
 }
