@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { LogOut, LogIn, UserRound, Milestone, Home } from "lucide-react";
 import { logout } from "@/actions/logout";
 import { redirect, useRouter } from "next/navigation";
+import { Session } from "next-auth";
 
-export default function TopNavBar({ session }: { session: any }) {
+export default function TopNavBar({ session }: { session: Session | null }) {
   const router = useRouter();
 
   // const handleLogin = async () => {
@@ -21,7 +22,9 @@ export default function TopNavBar({ session }: { session: any }) {
     try {
       await logout();
       router.refresh();
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   return (

@@ -58,7 +58,7 @@ type Summary = {
   user_id: string;
   user_name: string;
   status: string;
-  metrics: {};
+  metrics: { total_time: number };
   score: number;
   pdf_link: string;
 };
@@ -120,14 +120,12 @@ const columns: ColumnDef<Summary>[] = [
   },
 ];
 
-interface DataTableProps<TValue> {
+interface DataTableProps {
   data: Summary[];
 }
 
-export function LeaderboardTable<TValue>({
-  data: initialData,
-}: DataTableProps<TValue>) {
-  const [data, setData] = useState(() => initialData);
+export function LeaderboardTable({ data: initialData }: DataTableProps) {
+  const [data] = useState(() => initialData);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -159,8 +157,8 @@ export function LeaderboardTable<TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
   const isFiltered = table.getState().columnFilters.length > 0;
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [selectedDetails, setSelectedDetails] = useState<Summary | null>(null);
+  // const [selectedId, setSelectedId] = useState<string | null>(null);
+  // const [selectedDetails, setSelectedDetails] = useState<Summary | null>(null);
 
   //   const handleRowClick = (id: string) => {
   //     setSelectedId(id);

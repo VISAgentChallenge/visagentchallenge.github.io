@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid file" }, { status: 400 });
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
+  // const buffer = Buffer.from(await file.arrayBuffer());
 
   // update here with server endpoint
   //   const uploadDir = path.join(process.cwd(), 'public', 'uploads');
