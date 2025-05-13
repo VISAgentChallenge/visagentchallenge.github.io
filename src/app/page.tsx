@@ -1,11 +1,5 @@
-import Image from "next/image";
-import { auth } from "../auth";
-import SignIn from "@/components/sign-in";
-import { redirect } from "next/navigation";
-import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { LeaderboardTable } from "@/components/LeaderboardTable";
-import Footer from "@/components/Footer";
 
 export default async function LandingPage() {
   // fetch all users' submissions

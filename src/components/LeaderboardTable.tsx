@@ -25,11 +25,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 // import { copyToClipboard } from "@/utils/helpers";
 import {
   type ColumnDef,
@@ -51,7 +46,6 @@ import {
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
-  ClipboardIcon,
   ColumnsIcon,
   X,
 } from "lucide-react";

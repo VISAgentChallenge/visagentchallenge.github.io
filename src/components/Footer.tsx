@@ -1,5 +1,3 @@
-import { Button } from "./ui/button";
-
 export default function Footer() {
   return (
     <nav className="p-4 w-full border-t">

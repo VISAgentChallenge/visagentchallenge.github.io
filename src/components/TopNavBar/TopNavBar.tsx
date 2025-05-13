@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { LogOut, LogIn, UserRound, Milestone, Home } from "lucide-react";
 import { logout } from "@/actions/logout";
 import { redirect, useRouter } from "next/navigation";
-import { signIn, signOut } from "@/auth";
 
 export default function TopNavBar({ session }: { session: any }) {
   const router = useRouter();
