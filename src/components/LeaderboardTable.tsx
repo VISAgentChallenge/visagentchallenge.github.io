@@ -64,6 +64,7 @@ type Summary = {
   user_id: string;
   user_name: string;
   status: string;
+  metrics: {};
   score: number;
   pdf_link: string;
 };
@@ -79,8 +80,8 @@ const columns: ColumnDef<Summary>[] = [
       return <div className="flex items-center justify-center">User</div>;
     },
     cell: ({ row }) => {
-      const userName = row.getValue("user_name")
-    //   const userId = row.getValue("user_id");
+      const userName = row.getValue("user_name");
+      //   const userId = row.getValue("user_id");
       return (
         <div className="flex flex-col">
           <span>{userName as string}</span>
@@ -105,6 +106,22 @@ const columns: ColumnDef<Summary>[] = [
     accessorKey: "status",
     header: () => {
       return <div className="flex items-center justify-center">Status</div>;
+    },
+  },
+  {
+    accessorKey: "metrics",
+    header: () => {
+      return <div className="flex items-center justify-center">Metrics</div>;
+    },
+    cell: ({ row }) => {
+      const metrics = row.getValue("metrics") as { total_time: number };
+      //   const userId = row.getValue("user_id");
+      return (
+        <div className="flex flex-col">
+          <span>{JSON.stringify(metrics.total_time)}s</span>
+          {/* <span className="text-xs text-muted-foreground">{userId as string}</span> */}
+        </div>
+      );
     },
   },
 ];
@@ -256,7 +273,7 @@ export function LeaderboardTable<TValue>({
                 table.getRowModel().rows.map((row) => (
                   <TableRow key={row.id} onClick={() => {}}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                      <TableCell key={cell.id} className="text-center">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
