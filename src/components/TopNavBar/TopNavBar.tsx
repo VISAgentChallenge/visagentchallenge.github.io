@@ -30,7 +30,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
   return (
     <nav className="p-4 w-full border-b">
       <div className="container max-w-5xl mx-auto flex justify-between items-center">
-        <div className="text-lg font-bold">VIS Workshop</div>
+        <div className="text-lg font-bold">AI Agent & VIS workshop</div>
         <div className="flex space-x-4">
           <Button variant={"ghost"} onClick={() => redirect("/")}>
             <Home className="h-5 w-5" />

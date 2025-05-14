@@ -34,7 +34,7 @@ export function AppSidebar() {
       <SidebarContent className="pl-3">
         <SidebarGroup>
           <SidebarGroupLabel className="h-[62px] rounded-none w-full font-bold text-lg">
-            VIS workshop
+            AI Agent and Future of VIS
           </SidebarGroupLabel>
           <SidebarGroupContent className="pt-11">
             <SidebarMenu>

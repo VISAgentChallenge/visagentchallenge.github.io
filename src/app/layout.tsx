@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "VIS workshop - Evaluation Server",
-  description: "The evaluation server for generative agents workshop",
+  title: "AI Agent & VIS",
+  description: "The website for AI Agent & VIS workshop",
 };
 
 export default function RootLayout({
