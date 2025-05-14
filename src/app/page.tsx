@@ -66,7 +66,7 @@ export default async function LandingPage() {
     <>
       {/* content section */}
       <div className="py-12 px-4">
-        <div className="flex flex-col max-w-5xl mx-auto gap-24">
+        <div className="flex flex-col max-w-5xl mx-auto gap-10">
           {/* workshop intro: workshop poster, headline, short intro */}
           <div className="flex flex-row justify-left gap-12">
             <div className="w-[450px]">
@@ -75,30 +75,66 @@ export default async function LandingPage() {
               </AspectRatio>
             </div>
             <div className="flex flex-col gap-4 py-4">
-              <h1 className="text-5xl font-bold">{`VIS Workshop`}</h1>
-              <span className="text-muted-foreground">
-                {`Dummy workshop description. This is a placeholder text for the workshop description. It will be replaced with the actual content later.`}
-              </span>
-            </div>
-          </div>
-
-          {/* Challenge overview */}
-          <div className="flex flex-col gap-4">
-            <h2 className="text-3xl font-bold">{`Challenge Overview`}</h2>
-            <ul className="space-y-4">
-              <li>
-                <span className="text-muted-foreground">
-                  {`I. In parallel to soliciting the submission of relevant scientific works, the workshop 
+              <h1 className="text-5xl font-bold">{`AI Agents and the Future of VIS`}</h1>
+              <ul className="list-disc list-inside space-y-2">
+                      <li>May 30th, 2025: Call for Participation</li>
+                      <li>Aug 30th, 2025: Paper Submission Deadline </li>
+                      <li>Sep 15th, 2025: Author Notification</li>
+                      <li>Oct 1st, 2025: Camera-Ready Deadline</li>
+                      <li>Nov 2nd or 3rd: Workshop Day, TBD</li> 
+                    </ul>
+              {/* <span>
+                                  {`I. In parallel to soliciting the submission of relevant scientific works, the workshop 
                 hosts a mini challenge on AI agents data visualization. Participants are encouraged to 
                 build on the existing template by developing agents with improved reasoning and coordination 
                 strategies. The objective is to generate more insightful, coherent, and visually compelling 
                 analyses of the provided dataset, in the form of a one-page PDF report.`}
+              </span> */}
+              
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <h2 className="text-3xl font-bold">{`The workshop`}</h2>
+            <div className="space-y-4 m-3">
+                <div>
+                Recent advances in agents—autonomous, goal-driven AI systems that iteratively observe, act, and learn from their environments—offer a fundamentally different approach from traditional AI models that passively respond to input. 
+                These agentic AI systems are rapidly reshaping how we approach data-intensive tasks and providing new opportunities for the VIS community.
+                 Imagine an agent autonomously generating visualizations to analyze complex data, discovering patterns collaboratively, testing hypotheses, and communicating visual insights at a speed and scale beyond human capability.
+                  Yet, the emergence of these powerful systems raises critical questions that the VIS community must address: Could autonomous agents eventually replace human data scientists, and if not, how might they best collaborate? 
+                  Are current visualization techniques and interfaces, originally designed for human analysts, suitable for agent interactions? How can VIS designers effectively integrate agents into their workflows without compromising human agency?
+                   And to what extent should agents help shape and educate the next generation of visualization researchers? 
+                </div>
+
+                <div>
+                Through a mix of keynote talks, paper presentations, and a mini-challenge, this workshop invites researchers and practitioners to share innovative ideas, 
+                explore these questions, and discuss strategies to transform the impact of VIS for a future where human and AI agents co-exist.
+                </div>
+            </div>
+          </div>
+         
+          {/* Challenge overview */}
+          <div className="flex flex-col gap-4">
+            <h2 className="text-3xl font-bold">{`The Challenge`}</h2>
+            <ul className="space-y-4 m-3">
+              <li>
+                <div>
+                  In parallel to soliciting the submission of relevant scientific works, the workshop 
+                hosts a mini challenge on <span className="font-bold">AI agents data visualization</span>. Participants are encouraged to 
+                build on the existing template by developing agents with improved reasoning and coordination 
+                strategies. The objective is to generate more insightful, coherent, and visually compelling 
+                analyses of the provided dataset, in the form of a one-page PDF report.
+                </div>
+              </li>
+              <li>
+                <span className="font-bold">
+                  {`Submitted papers do not need to be linked with the challenge. `}
                 </span>
               </li>
               <li>
-                <span className="text-muted-foreground">
-                  {`II. Submitted papers do not need to be linked with the challenge. `}
-                </span>
+                <a href="/challenge" className="bg-blue-100 p-1 rounded-md">
+                  {`🏅 Get started with the challenge`}
+                </a>
               </li>
             </ul>
           </div>
@@ -106,8 +142,9 @@ export default async function LandingPage() {
           {/* submission gallery  */}
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">{`Leaderboard`}</h2>
-            <span className="text-muted-foreground">
-              {`Dummy leaderboard description. This is a placeholder text for the challenge description. It will be replaced with the actual content later.`}
+            <span className="m-3">
+              All finalized submissions are shown in the public leaderboard.
+              {/* {`Dummy leaderboard description. This is a placeholder text for the challenge description. It will be replaced with the actual content later.`} */}
             </span>
             <LeaderboardTable data={mockSummaries} />
           </div>
