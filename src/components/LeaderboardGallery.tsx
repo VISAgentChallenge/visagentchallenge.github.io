@@ -66,28 +66,38 @@ export default function LeaderboardGallery() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-      const fetchSubmissions = async () => {
-        try {
-        //   const res = await fetch("api/leaderboard", {
-        //     method: "GET",
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   });
-        //   console.log("Response:", res);
-        //   const data = await res.json();
-        //   setSubmissions(data.submissions);
-        setSubmissions(mockSubmissions);
-        } catch (err) {
-          console.error("Failed to fetch leaderboard:", err);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchSubmissions();
-    }, []);
-
+  useEffect(() => {
+    const fetchSubmissions = async () => {
+      try {
+        const res = await fetch("api/leaderboard", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        console.log("Response:", res);
+        const data = await res.json();
+        setSubmissions(data.submissions);
+        // setSubmissions(mockSubmissions);
+      } catch (err) {
+        console.error("Failed to fetch leaderboard:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSubmissions();
+    <a
+      href="https://arxiv.org/pdf/2408.01703"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
+        alt="PDF Icon"
+        className="w-full h-40 object-contain bg-gray-100 rounded-xl mb-3"
+      />
+    </a>;
+  }, []);
 
   const filteredSubmissions = submissions.filter((s) => {
     const fullName = `${s.first_name} ${s.last_name}`.toLowerCase();
@@ -119,6 +129,18 @@ export default function LeaderboardGallery() {
                 className="rounded-2xl shadow-md hover:shadow-lg transition"
               >
                 <CardContent className="p-4">
+                  {/* add pdf link preview */}
+                  <a
+                    href=""
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
+                      alt="PDF Icon"
+                      className="w-full h-40 object-contain bg-gray-100 rounded-xl mb-3"
+                    />
+                  </a>
                   <div className="font-semibold text-lg">
                     {submission.first_name} {submission.last_name}
                   </div>

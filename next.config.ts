@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         source: "/api/leaderboard",
         destination: "http://52.250.67.65:8000/leaderboard",
       },
+      {
+        source: "/api/output",
+        destination: "http://52.250.67.65:8000/output",
+      },
     ];
   },
 };
