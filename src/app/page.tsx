@@ -1,5 +1,6 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { LeaderboardTable } from "@/components/LeaderboardTable";
+import LeaderboardGallery from "@/components/LeaderboardGallery";
 
 export default async function LandingPage() {
   // fetch all users' submissions
@@ -157,7 +158,8 @@ export default async function LandingPage() {
             <span className="m-3">
               All finalized submissions are shown in the public leaderboard.
             </span>
-            <LeaderboardTable data={mockSummaries} />
+            {/* <LeaderboardTable data={mockSummaries} /> */}
+            <LeaderboardGallery />
           </div>
         </div>
       </div>
