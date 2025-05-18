@@ -1,66 +1,65 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { LeaderboardTable } from "@/components/LeaderboardTable";
 import LeaderboardGallery from "@/components/LeaderboardGallery";
 
 export default async function LandingPage() {
   // fetch all users' submissions
-  const mockSummaries = [
-    {
-      submission_id: "sub_001",
-      user_id: "user_101",
-      user_name: "Alice Johnson",
-      status: "approved",
-      metrics: {
-        total_time: 1250, // 20.8 mins
-      },
-      score: 91.5,
-      pdf_link: "/uploads/sub_001.pdf",
-    },
-    {
-      submission_id: "sub_002",
-      user_id: "user_102",
-      user_name: "Bob Smith",
-      status: "rejected",
-      metrics: {
-        total_time: 890, // ~15 mins
-      },
-      score: 58.3,
-      pdf_link: "/uploads/sub_002.pdf",
-    },
-    {
-      submission_id: "sub_003",
-      user_id: "user_103",
-      user_name: "Charlie Nguyen",
-      status: "pending",
-      metrics: {
-        total_time: 1600, // ~26.6 mins
-      },
-      score: 76.9,
-      pdf_link: "/uploads/sub_003.pdf",
-    },
-    {
-      submission_id: "sub_004",
-      user_id: "user_104",
-      user_name: "Diana Patel",
-      status: "approved",
-      metrics: {
-        total_time: 2105, // ~35 mins
-      },
-      score: 95.0,
-      pdf_link: "/uploads/sub_004.pdf",
-    },
-    {
-      submission_id: "sub_005",
-      user_id: "user_105",
-      user_name: "Ethan Lee",
-      status: "pending",
-      metrics: {
-        total_time: 780, // 13 mins
-      },
-      score: 69.2,
-      pdf_link: "/uploads/sub_005.pdf",
-    },
-  ];
+  // const mockSummaries = [
+  //   {
+  //     submission_id: "sub_001",
+  //     user_id: "user_101",
+  //     user_name: "Alice Johnson",
+  //     status: "approved",
+  //     metrics: {
+  //       total_time: 1250, // 20.8 mins
+  //     },
+  //     score: 91.5,
+  //     pdf_link: "/uploads/sub_001.pdf",
+  //   },
+  //   {
+  //     submission_id: "sub_002",
+  //     user_id: "user_102",
+  //     user_name: "Bob Smith",
+  //     status: "rejected",
+  //     metrics: {
+  //       total_time: 890, // ~15 mins
+  //     },
+  //     score: 58.3,
+  //     pdf_link: "/uploads/sub_002.pdf",
+  //   },
+  //   {
+  //     submission_id: "sub_003",
+  //     user_id: "user_103",
+  //     user_name: "Charlie Nguyen",
+  //     status: "pending",
+  //     metrics: {
+  //       total_time: 1600, // ~26.6 mins
+  //     },
+  //     score: 76.9,
+  //     pdf_link: "/uploads/sub_003.pdf",
+  //   },
+  //   {
+  //     submission_id: "sub_004",
+  //     user_id: "user_104",
+  //     user_name: "Diana Patel",
+  //     status: "approved",
+  //     metrics: {
+  //       total_time: 2105, // ~35 mins
+  //     },
+  //     score: 95.0,
+  //     pdf_link: "/uploads/sub_004.pdf",
+  //   },
+  //   {
+  //     submission_id: "sub_005",
+  //     user_id: "user_105",
+  //     user_name: "Ethan Lee",
+  //     status: "pending",
+  //     metrics: {
+  //       total_time: 780, // 13 mins
+  //     },
+  //     score: 69.2,
+  //     pdf_link: "/uploads/sub_005.pdf",
+  //   },
+  // ];
 
   return (
     <>

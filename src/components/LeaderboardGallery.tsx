@@ -11,7 +11,7 @@ type Submission = {
   updated_at: string;
   score: number;
   isFinal: boolean;
-  metrics: any;
+  metrics: {total_time: number};
   username: string;
   email: string;
   first_name: string;
@@ -19,47 +19,47 @@ type Submission = {
 };
 
 // mock data to test before server has data
-const mockSubmissions: Submission[] = [
-  {
-    id: 1,
-    status: "completed",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    score: 95,
-    isFinal: true,
-    metrics: {},
-    username: "jdoe",
-    email: "jdoe@example.com",
-    first_name: "John",
-    last_name: "Doe",
-  },
-  {
-    id: 2,
-    status: "completed",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    score: 88,
-    isFinal: true,
-    metrics: {},
-    username: "asmith",
-    email: "asmith@example.com",
-    first_name: "Alice",
-    last_name: "Smith",
-  },
-  {
-    id: 3,
-    status: "completed",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    score: 76,
-    isFinal: true,
-    metrics: {},
-    username: "bwayne",
-    email: "bwayne@example.com",
-    first_name: "Bruce",
-    last_name: "Wayne",
-  },
-];
+// const mockSubmissions: Submission[] = [
+//   {
+//     id: 1,
+//     status: "completed",
+//     created_at: new Date().toISOString(),
+//     updated_at: new Date().toISOString(),
+//     score: 95,
+//     isFinal: true,
+//     metrics: {},
+//     username: "jdoe",
+//     email: "jdoe@example.com",
+//     first_name: "John",
+//     last_name: "Doe",
+//   },
+//   {
+//     id: 2,
+//     status: "completed",
+//     created_at: new Date().toISOString(),
+//     updated_at: new Date().toISOString(),
+//     score: 88,
+//     isFinal: true,
+//     metrics: {},
+//     username: "asmith",
+//     email: "asmith@example.com",
+//     first_name: "Alice",
+//     last_name: "Smith",
+//   },
+//   {
+//     id: 3,
+//     status: "completed",
+//     created_at: new Date().toISOString(),
+//     updated_at: new Date().toISOString(),
+//     score: 76,
+//     isFinal: true,
+//     metrics: {},
+//     username: "bwayne",
+//     email: "bwayne@example.com",
+//     first_name: "Bruce",
+//     last_name: "Wayne",
+//   },
+// ];
 
 export default function LeaderboardGallery() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
