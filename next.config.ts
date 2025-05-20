@@ -2,6 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    return config;
+  },
   async rewrites() {
     return [
       {
@@ -17,4 +21,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
