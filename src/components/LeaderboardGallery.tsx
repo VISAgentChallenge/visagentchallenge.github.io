@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import PDFThumbnail from "./PDFThumbnail";
 
 type Submission = {
   id: number;
@@ -11,7 +12,7 @@ type Submission = {
   updated_at: string;
   score: number;
   isFinal: boolean;
-  metrics: {total_time: number};
+  metrics: { total_time: number };
   username: string;
   email: string;
   first_name: string;
@@ -86,17 +87,6 @@ export default function LeaderboardGallery() {
       }
     };
     fetchSubmissions();
-    <a
-      href="https://arxiv.org/pdf/2408.01703"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
-        alt="PDF Icon"
-        className="w-full h-40 object-contain bg-gray-100 rounded-xl mb-3"
-      />
-    </a>;
   }, []);
 
   const filteredSubmissions = submissions.filter((s) => {
@@ -130,17 +120,17 @@ export default function LeaderboardGallery() {
               >
                 <CardContent className="p-4">
                   {/* add pdf link preview */}
-                  <a
-                    href=""
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  {/* <a href="" target="_blank" rel="noopener noreferrer">
                     <img
                       src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
                       alt="PDF Icon"
                       className="w-full h-40 object-contain bg-gray-100 rounded-xl mb-3"
                     />
-                  </a>
+                  </a> */}
+                  <PDFThumbnail
+                    pdfUrl="https://arxiv.org/pdf/2408.01703"
+                    className="rounded-xl mb-3 w-full"
+                  />
                   <div className="font-semibold text-lg">
                     {submission.first_name} {submission.last_name}
                   </div>
