@@ -1,5 +1,5 @@
 "use client";
-import { Document, Page, pdfjs, Thumbnail } from "react-pdf";
+import { Document, pdfjs, Thumbnail } from "react-pdf";
 
 // set worker
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
