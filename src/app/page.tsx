@@ -1,4 +1,3 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import LeaderboardGallery from "@/components/LeaderboardGallery";
 
 export default async function LandingPage() {
@@ -74,7 +73,7 @@ export default async function LandingPage() {
             </div>
           <div className="relative w-full h-[400px] rounded-md overflow-hidden">
               <img
-                src="/challenge.png"
+                src="/challenge-background.png"
                 alt="Challenge"
                 className="absolute inset-0 w-full h-full object-contain"
               />
