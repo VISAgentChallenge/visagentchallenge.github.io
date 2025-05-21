@@ -1,4 +1,3 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import LeaderboardGallery from "@/components/LeaderboardGallery";
 
 export default async function LandingPage() {
@@ -67,22 +66,18 @@ export default async function LandingPage() {
       <div className="py-12 px-4">
         <div className="flex flex-col max-w-5xl mx-auto gap-10">
           {/* workshop intro: workshop poster, headline, short intro */}
-          <div className="flex flex-row justify-left gap-12">
-            <div className="w-[450px]">
-              <AspectRatio ratio={1 / 1} className="border-2">
-                {/* <Image src="..." alt="Image" className="rounded-md object-cover" /> */}
-              </AspectRatio>
+          <div className="relative z-10 flex justify-center h-full p-1">
+                <h1 className="text-4xl font-bold text-black">
+                  AI Agents and the Future of VIS
+                </h1>
             </div>
-            <div className="flex flex-col gap-4 py-4">
-              <h1 className="text-5xl font-bold">{`AI Agents and the Future of VIS`}</h1>
-              <ul className="list-disc list-inside space-y-2">
-                <li>May 30th, 2025: Call for Participation</li>
-                <li>Aug 30th, 2025: Paper Submission Deadline </li>
-                <li>Sep 15th, 2025: Author Notification</li>
-                <li>Oct 1st, 2025: Camera-Ready Deadline</li>
-                <li>Nov 2nd or 3rd: Workshop Day, TBD</li>
-              </ul>
-            </div>
+          <div className="relative w-full h-[400px] rounded-md overflow-hidden">
+              <img
+                src="/challenge-background.png"
+                alt="Challenge"
+                className="absolute inset-0 w-full h-full object-contain"
+              />
+              <div className="absolute inset-0 bg-black/0" />
           </div>
 
           <div className="flex flex-col gap-4">
@@ -150,6 +145,16 @@ export default async function LandingPage() {
               </li>
             </ul>
           </div>
+          <div className="flex flex-col gap-4">
+            <h2 className="text-3xl font-bold">{`Important Dates`}</h2>
+              <ul className="list-disc list-inside space-y-2">
+                <li>May 30th, 2025: Call for Participation</li>
+                <li>Aug 20th, 2025: Paper Submission Deadline </li>
+                <li>Sep 15th, 2025: Author Notification</li>
+                <li>Oct 1st, 2025: Camera-Ready Deadline</li>
+                <li>Nov 2nd or 3rd: Workshop Day, TBD</li>
+              </ul>
+            </div>
 
           {/* submission gallery  */}
           <div className="flex flex-col gap-4">
