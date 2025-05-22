@@ -1,22 +1,13 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
-import { LogOut, LogIn, UserRound, Milestone, Home } from "lucide-react";
+import { LogOut, LogIn, Milestone, Home, Layers2 } from "lucide-react";
 import { logout } from "@/actions/logout";
 import { redirect, useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 export default function TopNavBar({ session }: { session: Session | null }) {
   const router = useRouter();
-
-  // const handleLogin = async () => {
-  //   try {
-  //     console.log("Logging in on client side...");
-  //     await login();
-  //     router.refresh();
-  //   } catch (error) {
-  //     console.error("Error during login client side:", error);
-  //   }
-  // };
 
   const handleLogout = async () => {
     try {
@@ -42,8 +33,8 @@ export default function TopNavBar({ session }: { session: Session | null }) {
           </Button>
           {session?.user && (
             <Button variant={"ghost"} onClick={() => redirect("/home")}>
-              <UserRound className="h-5 w-5" />
-              <span>Home</span>
+              <Layers2 className="h-5 w-5" />
+              <span>Submissions</span>
             </Button>
           )}
           {session?.user ? (
@@ -56,12 +47,6 @@ export default function TopNavBar({ session }: { session: Session | null }) {
               <LogIn className="h-5 w-5" />
               <span>Login</span>
             </Button>
-            // <form action={handleLogin}>
-            //   <Button variant="ghost">
-            //     <LogIn className="h-5 w-5" />
-            //     <span>Login</span>
-            //   </Button>
-            // </form>
           )}
         </div>
       </div>

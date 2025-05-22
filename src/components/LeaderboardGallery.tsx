@@ -19,49 +19,6 @@ type Submission = {
   last_name: string;
 };
 
-// mock data to test before server has data
-// const mockSubmissions: Submission[] = [
-//   {
-//     id: 1,
-//     status: "completed",
-//     created_at: new Date().toISOString(),
-//     updated_at: new Date().toISOString(),
-//     score: 95,
-//     isFinal: true,
-//     metrics: {},
-//     username: "jdoe",
-//     email: "jdoe@example.com",
-//     first_name: "John",
-//     last_name: "Doe",
-//   },
-//   {
-//     id: 2,
-//     status: "completed",
-//     created_at: new Date().toISOString(),
-//     updated_at: new Date().toISOString(),
-//     score: 88,
-//     isFinal: true,
-//     metrics: {},
-//     username: "asmith",
-//     email: "asmith@example.com",
-//     first_name: "Alice",
-//     last_name: "Smith",
-//   },
-//   {
-//     id: 3,
-//     status: "completed",
-//     created_at: new Date().toISOString(),
-//     updated_at: new Date().toISOString(),
-//     score: 76,
-//     isFinal: true,
-//     metrics: {},
-//     username: "bwayne",
-//     email: "bwayne@example.com",
-//     first_name: "Bruce",
-//     last_name: "Wayne",
-//   },
-// ];
-
 export default function LeaderboardGallery() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [search, setSearch] = useState("");
@@ -134,12 +91,9 @@ export default function LeaderboardGallery() {
                   <div className="font-semibold text-lg">
                     {submission.first_name} {submission.last_name}
                   </div>
-                  <div className="text-sm text-gray-600">
-                    @{submission.username}
-                  </div>
+                  <div className="text-sm text-gray-600">@{submission.username}</div>
                   <div className="mt-2 text-sm">
-                    Score:{" "}
-                    <span className="font-medium">{submission.score}</span>
+                    Score: <span className="font-medium">{submission.score}</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-1">
                     Updated: {new Date(submission.updated_at).toLocaleString()}

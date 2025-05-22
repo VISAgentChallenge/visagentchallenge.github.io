@@ -26,7 +26,7 @@ export function ZipUploader() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("/upload", {
+      const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
