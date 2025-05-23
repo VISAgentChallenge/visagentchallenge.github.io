@@ -1,5 +1,5 @@
 "use client";
-
+import SubmissionGuide from "@/components/SubmissionGuide";
 export default function Challenge() {
   return (
     <div className="p-12 flex flex-col gap-2">
@@ -183,6 +183,7 @@ export default function Challenge() {
           </div>
         </div>
       </div>
+      <SubmissionGuide />
     </div>
   );
 }
