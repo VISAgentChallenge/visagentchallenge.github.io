@@ -1,0 +1,2 @@
+export const PDF_VIEWER_PADDING_WIDTH = 40;
+export const PDF_VIEWER_PADDING_HEIGHT = 40;

@@ -1,9 +1,13 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import PDFThumbnail from "./PDFThumbnail";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { CircleAlert } from "lucide-react";
+import PdfViewer from "./PDFViewer";
 
 type Submission = {
   id: number;
@@ -33,10 +37,8 @@ export default function LeaderboardGallery() {
             "Content-Type": "application/json",
           },
         });
-        console.log("Response:", res);
         const data = await res.json();
         setSubmissions(data.submissions);
-        // setSubmissions(mockSubmissions);
       } catch (err) {
         console.error("Failed to fetch leaderboard:", err);
       } finally {
@@ -48,60 +50,67 @@ export default function LeaderboardGallery() {
 
   const filteredSubmissions = submissions.filter((s) => {
     const fullName = `${s.first_name} ${s.last_name}`.toLowerCase();
-    return (
-      fullName.includes(search.toLowerCase()) ||
-      s.username.toLowerCase().includes(search.toLowerCase())
-    );
+    return fullName.includes(search.toLowerCase());
   });
 
   return (
-    <div className="m-3">
+    <div className="my-3">
       <div className="flex justify-left mb-6">
         <Input
           type="text"
-          placeholder="Search by name or username..."
+          placeholder="Search by name"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-80"
+          className="w-80 rounded-sm shadow-none"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {loading
-          ? Array.from({ length: 12 }).map((_, i) => (
-              <Skeleton key={i} className="h-40 rounded-xl" />
-            ))
-          : filteredSubmissions.map((submission) => (
-              <Card
-                key={submission.id}
-                className="rounded-2xl shadow-md hover:shadow-lg transition"
-              >
-                <CardContent className="p-4">
-                  {/* add pdf link preview */}
-                  {/* <a href="" target="_blank" rel="noopener noreferrer">
-                    <img
-                      src="https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg"
-                      alt="PDF Icon"
-                      className="w-full h-40 object-contain bg-gray-100 rounded-xl mb-3"
-                    />
-                  </a> */}
-                  <PDFThumbnail
-                    pdfUrl="https://arxiv.org/pdf/2408.01703"
-                    className="rounded-xl mb-3 w-full"
-                  />
-                  <div className="font-semibold text-lg">
-                    {submission.first_name} {submission.last_name}
-                  </div>
-                  <div className="text-sm text-gray-600">@{submission.username}</div>
-                  <div className="mt-2 text-sm">
-                    Score: <span className="font-medium">{submission.score}</span>
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    Updated: {new Date(submission.updated_at).toLocaleString()}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-      </div>
+      {!loading && filteredSubmissions.length === 0 ? (
+        <div className="flex flex-col items-center justify-center h-64 text-gray-400 bg-gray-50 w-full rounded-sm border border-gray-200">
+          <CircleAlert size={48} className="mb-2" />
+          <span className="text-md font-medium text-center">Submissions not found.</span>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {loading
+            ? Array.from({ length: 12 }).map((_, i) => (
+                <Skeleton key={i} className="h-40 rounded-sm" />
+              ))
+            : filteredSubmissions.map((submission) => (
+                <Sheet key={submission.id}>
+                  <SheetTrigger asChild>
+                    <Card className="rounded-md shadow-md hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100">
+                      <CardContent className="p-4">
+                        <PDFThumbnail
+                          pdfUrl={`/api/pdf/${submission.id}`}
+                          className="mb-3 w-full border border-gray-100 rounded-xs overflow-clip"
+                        />
+                        <div className="font-semibold text-lg">
+                          {submission.first_name} {submission.last_name}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          <span className="font-semibold">Submitted at:</span>
+                          <br />
+                          {new Date(submission.updated_at).toLocaleString()}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </SheetTrigger>
+                  <SheetContent
+                    side="right"
+                    className="h-full min-w-1/2"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                  >
+                    <SheetHeader>
+                      <SheetTitle>
+                        Submission by {submission.first_name} {submission.last_name}
+                      </SheetTitle>
+                    </SheetHeader>
+                    <PdfViewer pdfUrl={`/api/pdf/${submission.id}`} />
+                  </SheetContent>
+                </Sheet>
+              ))}
+        </div>
+      )}
     </div>
   );
 }

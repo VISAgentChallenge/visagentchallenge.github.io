@@ -32,7 +32,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
             <span>Challenge</span>
           </Button>
           {session?.user && (
-            <Button variant={"ghost"} onClick={() => redirect("/home")}>
+            <Button variant={"ghost"} onClick={() => redirect("/submission")}>
               <Layers2 className="h-5 w-5" />
               <span>Submissions</span>
             </Button>

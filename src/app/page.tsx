@@ -24,7 +24,7 @@ export default async function LandingPage() {
 
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">{`The workshop`}</h2>
-            <div className="space-y-4 m-3">
+            <div className="space-y-4 my-3">
               <div>
                 Recent advances in agents—autonomous, goal-driven AI systems that iteratively
                 observe, act, and learn from their environments—offer a fundamentally different
@@ -55,7 +55,7 @@ export default async function LandingPage() {
           {/* Challenge overview */}
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">{`The Challenge`}</h2>
-            <ul className="space-y-4 m-3">
+            <ul className="space-y-4 my-3">
               <li>
                 <div>
                   In parallel to soliciting the submission of relevant scientific works, the
@@ -93,8 +93,9 @@ export default async function LandingPage() {
           {/* submission gallery  */}
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">{`Leaderboard`}</h2>
-            <span className="m-3">
-              All finalized submissions are shown in the public leaderboard.
+            <span className="my-3">
+              Finalized submissions from all participants are shown here. Feel free to have a look
+              what others have created! Use the search bar below to find submissions by name.
             </span>
             <LeaderboardGallery />
           </div>

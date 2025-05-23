@@ -2,7 +2,7 @@
 
 import { ZipUploader } from "@/components/ZipUploader";
 
-export default function Home() {
+export default function Submission() {
   return (
     <div className="p-12 flex flex-col gap-4">
       <div className="py-12 px-4">

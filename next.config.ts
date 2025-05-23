@@ -10,11 +10,15 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/leaderboard",
-        destination: "http://52.250.67.65:8000/leaderboard",
+        destination: `${process.env.API_ENDPOINT}/leaderboard`,
       },
       {
-        source: "/api/output",
-        destination: "http://52.250.67.65:8000/output",
+        source: "/api/pdf/:submission_id",
+        destination: `${process.env.API_ENDPOINT}/pdf/:submission_id`,
+      },
+      {
+        source: "/api/output/:submission_id/:file_name",
+        destination: `${process.env.API_ENDPOINT}/output/:submission_id/:file_name`,
       },
     ];
   },
