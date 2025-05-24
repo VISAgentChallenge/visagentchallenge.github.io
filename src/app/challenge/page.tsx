@@ -7,10 +7,9 @@ export default function Challenge() {
         <div className="flex flex-col max-w-5xl mx-auto gap-8">
           {/* put stuff here to keep the stylistic consistency */}
           <h1 className="text-3xl font-bold">Mini Challenge</h1>
-          <div className="p-4">
-            {" "}
-            The mini challenge encourages the exploration of how AI agents can
-            automate data visualization and visual analytics.
+          <div className="py-4">
+            The mini challenge encourages the exploration of how AI agents can automate data
+            visualization and visual analytics.
             <br />
             <br />
             We will provide the dataset to visualize (
@@ -20,9 +19,8 @@ export default function Challenge() {
             >
               VisPubData
             </a>
-            ), alongside a multi-agent workflow template capable of inputting
-            and analyzing dataset, and producing concise one-page reports. The
-            template is to help get started quickly.
+            ), alongside a multi-agent workflow template capable of inputting and analyzing dataset,
+            and producing concise one-page reports. The template is to help get started quickly.
           </div>
 
           {/* <div className="p-4">
@@ -35,25 +33,24 @@ export default function Challenge() {
           {/* list participants number  */}
 
           {/* evaluation section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">Evaluation</h1>
-            After the server closes, we will apply a review process similar to
-            that of paper submissions. Evaluation criteria include:
+            After the server closes, we will apply a review process similar to that of paper
+            submissions. Evaluation criteria include:
             <ul className="flex flex-col gap-2 mt-2 list-disc list-inside">
               <li>
-                <b>Agent-generated report</b> — clarity, coherence, and
-                insightfulness;
+                <b>Agent-generated report</b> — clarity, coherence, and insightfulness;
               </li>
               <li>
-                <b>Technical report</b> — explanation of key decisions,
-                challenges faced, and lessons learned.
+                <b>Technical report</b> — explanation of key decisions, challenges faced, and
+                lessons learned.
               </li>
               Accepted submissions will be invited to present their works.
             </ul>
           </div>
 
           {/* submission section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">Submission</h1>
             The template as baseline is available at{" "}
             <a
@@ -62,82 +59,69 @@ export default function Challenge() {
             >
               Mini Challenge Template
             </a>
-            . Please use it as to get started. You can submit your agent
-            implementation to the evaluation server once logged in. You could
-            submit multiple times, up to{" "}
-            <span className="bg-gray-100 p-1 rounded-md">5 times per day</span>,
-            a maximum of{" "}
-            <span className="bg-gray-100 p-1 rounded-md">100 times</span>{" "}
-            throughout the challenge.
+            . Please use it as to get started. You can submit your agent implementation to the
+            evaluation server once logged in. You could submit multiple times, up to{" "}
+            <span className="bg-gray-100 p-1 rounded-md">5 times per day</span>, a maximum of{" "}
+            <span className="bg-gray-100 p-1 rounded-md">100 times</span> throughout the challenge.
           </div>
 
           {/* leaderboards section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">Leaderboards</h1>
             In this competition, we offer both public and private leaderboards:
             <ul className="flex flex-col gap-2 mt-2 list-disc list-inside">
               <li>
                 <b>Public leaderboard: </b>
                 This determines the mini-challenge awards. All the{" "}
-                <span className="bg-gray-100 p-1 rounded-md">
-                  finalized submissions
-                </span>{" "}
-                are shown which reviewers will evaluate.
+                <span className="bg-gray-100 p-1 rounded-md">finalized submissions</span> are shown
+                which reviewers will evaluate.
               </li>
               <li>
                 <b>Private leaderboard: </b>
-                Displays all your previous submissions. You can review them and
-                mark only one as your finalized submission.
+                Displays all your previous submissions. You can review them and mark only one as
+                your finalized submission.
                 {/* up to ten of your most recent submissions*/}
               </li>
             </ul>
           </div>
 
           {/* FAQ section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">FAQ</h1>
-            <p className="flex flex-col gap-2">
-              <ul className="flex flex-col gap-2 mt-2 list-disc list-inside">
-                <li>
-                  <b>Do I need an OpenAI API key?</b>
-                  <br />
-                  You’ll need an API key to test your agent locally. However,
-                  it’s not required for submissions — the evaluation server will
-                  handle all LLM calls using GPT-4o (version: 2024-11-20).
-                </li>
 
-                <li>
-                  <b>Will the mini-challenge count as a publication?</b> <br />
-                  Yes, awarded submissions will be published in the same format
-                  as the short paper submissions.
-                </li>
-                <li>
-                  <b>How should submissions be formatted?</b> <br />
-                  Submit a ZIP file containing: agent.py: Your agent
-                  implementation (at the root). requirements.txt: Lists Python
-                  dependencies (also at the root). Other files: Any additional
-                  files needed for your agent to run.
-                </li>
-                <li>
-                  <b>Do we support frameworks other than LangGraph?</b> <br />
-                  Yes. As long as your implementation follows the template
-                  instructions and the interface in{" "}
-                  <span className="bg-yellow-100 p-1 rounded-md">
-                    agent.py
-                  </span>{" "}
-                  with your class agent and produces an{" "}
-                  <span className="bg-yellow-100 p-1 rounded-md">
-                    output.pdf
-                  </span>{" "}
-                  in the root directory during evaluation, you're free to use
-                  other frameworks.
-                </li>
-              </ul>
-            </p>
+            <ul className="flex flex-col gap-6 mt-2 list-disc list-inside">
+              <li>
+                <b>Do I need an OpenAI API key?</b>
+                <br />
+                You’ll need an API key to test your agent locally. However, it’s not required for
+                submissions — the evaluation server will handle all LLM calls using GPT-4o (version:
+                2024-11-20).
+              </li>
+
+              <li>
+                <b>Will the mini-challenge count as a publication?</b> <br />
+                Yes, awarded submissions will be published in the same format as the short paper
+                submissions.
+              </li>
+              <li>
+                <b>How should submissions be formatted?</b> <br />
+                Submit a ZIP file containing: agent.py: Your agent implementation (at the root).
+                requirements.txt: Lists Python dependencies (also at the root). Other files: Any
+                additional files needed for your agent to run.
+              </li>
+              <li>
+                <b>Do we support frameworks other than LangGraph?</b> <br />
+                Yes. As long as your implementation follows the template instructions and the
+                interface in <span className="bg-yellow-100 p-1 rounded-md">agent.py</span> with
+                your class agent and produces an{" "}
+                <span className="bg-yellow-100 p-1 rounded-md">output.pdf</span> in the root
+                directory during evaluation, you're free to use other frameworks.
+              </li>
+            </ul>
           </div>
 
           {/* Timeline section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-4">Timeline</h1>
             <ul className="flex flex-col gap-2 mt-2 list-disc list-inside">
               <li>
@@ -159,7 +143,7 @@ export default function Challenge() {
           </div>
 
           {/* Forum section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">Forum</h1>
             <p>
               Please join the{" "}
@@ -171,13 +155,13 @@ export default function Challenge() {
           </div>
 
           {/* Awards section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">Awards</h1>
             <p>TBD</p>
           </div>
 
           {/* Organizers section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">Organizers</h1>
             <p>This challenge is organized by, sponsored by.</p>
           </div>

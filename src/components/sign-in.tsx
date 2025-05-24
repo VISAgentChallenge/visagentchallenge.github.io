@@ -1,9 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import { signIn } from "@/auth";
+import { Mail } from "lucide-react";
 import googleSvg from "/public/google.svg";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Mail } from "lucide-react";
+import { credentialsSignInAction, googleSignInAction } from "@/actions/authActions";
 
 export default function SignIn() {
   return (
@@ -15,12 +17,7 @@ export default function SignIn() {
           </h1>
 
           {/* Google Sign-In */}
-          <form
-            action={async () => {
-              "use server";
-              await signIn("google", { redirectTo: "/" });
-            }}
-          >
+          <form action={googleSignInAction}>
             <Button type="submit">
               <Image src={googleSvg} alt="Google" width={16} height={16} />
               Sign in with Google
@@ -34,16 +31,7 @@ export default function SignIn() {
           </div>
 
           {/* Credentials Sign-In */}
-          <form
-            action={async (formData: FormData) => {
-              "use server";
-              const email = formData.get("email");
-              const password = formData.get("password");
-              if (typeof email === "string" && typeof password === "string") {
-                await signIn("credentials", { email, password, redirectTo: "/" });
-              }
-            }}
-          >
+          <form action={credentialsSignInAction}>
             <div className="flex flex-col gap-2">
               <input
                 name="email"
