@@ -2,6 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { ZipUploader } from "@/components/ZipUploader";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from "@/components/ui/table";
+import { AlertCircle, FileText } from "lucide-react";
+import { formatDateTime } from "@/lib/utils";
+import StatusBadge from "@/components/StatusBadge";
+import { Button } from "@/components/ui/button";
 
 export default function Submission() {
   const [submissions, setSubmissions] = useState([]);
@@ -45,28 +57,46 @@ export default function Submission() {
             ) : error ? (
               <div className="text-red-500">{error}</div>
             ) : (
-              <table className="min-w-full border mt-4">
-                <thead>
-                  <tr>
-                    <th className="border px-4 py-2">ID</th>
-                    <th className="border px-4 py-2">Status</th>
-                    <th className="border px-4 py-2">Score</th>
-                    <th className="border px-4 py-2">Created At</th>
-                    <th className="border px-4 py-2">Updated At</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {submissions.map((submission: any) => (
-                    <tr key={submission.id}>
-                      <td className="border px-4 py-2">{submission.id}</td>
-                      <td className="border px-4 py-2">{submission.status}</td>
-                      <td className="border px-4 py-2">{submission.score}</td>
-                      <td className="border px-4 py-2">{submission.created_at}</td>
-                      <td className="border px-4 py-2">{submission.updated_at}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <Table className="border-separate border-spacing-0 border border-gray-300 rounded-sm overflow-clip">
+                <TableHeader className="bg-gray-100">
+                  <TableRow>
+                    <TableHead className="px-4">ID</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center">Submitted At</TableHead>
+                    <TableHead className="text-center">View</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {submissions.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={4} className="text-center py-8 text-gray-400">
+                        <span className="flex justify-center items-center gap-2">
+                          <AlertCircle />
+                          No submissions present.
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    submissions.map((submission: any) => (
+                      <TableRow key={submission.id}>
+                        <TableCell className="px-4">{submission.id}</TableCell>
+                        <TableCell className="text-center">
+                          <StatusBadge status={submission.status} />
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {formatDateTime(submission.created_at)}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <Button variant="link" className="cursor-pointer">
+                            <FileText />
+                            PDF
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
             )}
           </div>
 
