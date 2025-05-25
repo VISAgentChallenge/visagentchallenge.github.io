@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { LogOut, LogIn, Milestone, Home, Layers2 } from "lucide-react";
 import { logout } from "@/actions/logout";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 export default function TopNavBar({ session }: { session: Session | null }) {
@@ -13,6 +13,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
     try {
       await logout();
       router.refresh();
+      router.push("/");
     } catch (error) {
       console.error("Error during logout:", error);
     }
@@ -23,16 +24,16 @@ export default function TopNavBar({ session }: { session: Session | null }) {
       <div className="container max-w-5xl mx-auto flex justify-between items-center">
         <div className="text-lg font-bold">AI Agent & VIS workshop</div>
         <div className="flex space-x-4">
-          <Button variant={"ghost"} onClick={() => redirect("/")}>
+          <Button variant={"ghost"} onClick={() => router.push("/")}>
             <Home className="h-5 w-5" />
             <span>Overview</span>
           </Button>
-          <Button variant={"ghost"} onClick={() => redirect("/challenge")}>
+          <Button variant={"ghost"} onClick={() => router.push("/challenge")}>
             <Milestone className="h-5 w-5" />
             <span>Challenge</span>
           </Button>
           {session?.user && (
-            <Button variant={"ghost"} onClick={() => redirect("/submission")}>
+            <Button variant={"ghost"} onClick={() => router.push("/submission")}>
               <Layers2 className="h-5 w-5" />
               <span>Submissions</span>
             </Button>
@@ -43,7 +44,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
               <span>Logout</span>
             </Button>
           ) : (
-            <Button variant="ghost" onClick={() => redirect("/signin")}>
+            <Button variant="ghost" onClick={() => router.push("/signin")}>
               <LogIn className="h-5 w-5" />
               <span>Login</span>
             </Button>
