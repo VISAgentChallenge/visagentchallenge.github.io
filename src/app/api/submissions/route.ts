@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 export async function GET() {
   // Get the current user's session
   const session = await auth();
-  console.log(session);
+
   if (!session || !session.accessToken) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -19,6 +19,5 @@ export async function GET() {
   });
 
   const data = await apiRes.json();
-  console.log(data);
   return NextResponse.json(data, { status: apiRes.status });
 }

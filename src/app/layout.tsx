@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { Geist, Geist_Mono } from "next/font/google";
 import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
 import { auth } from "@/auth";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Toaster />
         <TopNavBarWrapper />
         <SessionProvider session={session}>
           <div className="min-h-screen">{children}</div>
