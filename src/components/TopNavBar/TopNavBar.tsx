@@ -5,6 +5,7 @@ import { LogOut, LogIn, Milestone, Home, Layers2, Book } from "lucide-react";
 import { logout } from "@/actions/logout";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
+import { redirect } from "next/navigation";
 
 export default function TopNavBar({ session }: { session: Session | null }) {
   const router = useRouter();

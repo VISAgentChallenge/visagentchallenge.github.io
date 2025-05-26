@@ -2,7 +2,9 @@ import "./globals.css";
 import "../lib/polyfills";
 import type { Metadata } from "next";
 
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { 
+  // Geist, Geist_Mono, 
+  Inter } from "next/font/google";
 
 
 import Footer from "@/components/Footer";
@@ -13,16 +15,16 @@ import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
 import { auth } from "@/auth";
 import { Toaster } from "sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+//   weight: ["400", "500", "600", "700"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 const inter = Inter({
   variable: "--font-inter",
