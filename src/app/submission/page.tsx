@@ -37,12 +37,15 @@ export default function Submission() {
     const fetchSubmissions = async () => {
       setLoading(true);
       setError("");
+
       try {
         const res = await fetch("/api/submissions");
+
         if (!res.ok) {
           const data = await res.json();
-          throw new Error(data.error || "Failed to fetch submissions");
+          throw new Error(data.error);
         }
+
         const data = (await res.json()) as SubmissionList;
         setSubmissions(data.submissions || []);
         setFinalSubmissionId(data.submissions.find((s: Submission) => s.isFinal)?.id);
@@ -63,22 +66,26 @@ export default function Submission() {
   const handleOpenErrorLog = async (submissionId: string) => {
     setErrorLog(null);
     setShowErrorSheet(true);
+
     try {
       const res = await fetch(`/api/output/${submissionId}/error.log`);
+
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Failed to fetch error log");
+        throw new Error(data.error);
       }
+
       const log = await res.text();
       setErrorLog(log);
     } catch (err) {
-      setErrorLog(err instanceof Error ? err.message : "Unknown error");
+      setErrorLog(err instanceof Error ? err.message : "An unexpected error occurred");
     }
   };
 
   const handleMarkAsFinal = async (submissionId: string) => {
+    setIsMarkingAsFinal(true);
+
     try {
-      setIsMarkingAsFinal(true);
       const res = await fetch(`/api/finalize?submission_id=${submissionId}`, {
         method: "POST",
       });
@@ -87,6 +94,7 @@ export default function Submission() {
         const data = await res.json();
         throw new Error(data.error);
       }
+
       toast.success("Submission marked as final");
       setIsMarkingAsFinal(false);
       setFinalSubmissionId(submissionId);
@@ -152,7 +160,7 @@ export default function Submission() {
                                     e.stopPropagation();
                                     handleMarkAsFinal(submission.id);
                                   }}
-                                  className="cursor-pointer group-hover:opacity-100 opacity-0 transition-opacity duration-300 flex gap-2 items-center px-3 py-1 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-500"
+                                  className="cursor-pointer group-hover:opacity-100 opacity-0 hover:bg-neutral-200 transition-opacity duration-300 flex gap-2 items-center px-3 py-1 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-500"
                                 >
                                   {isMarkingAsFinal ? (
                                     <Loader2 className="size-4 animate-spin" />
@@ -240,7 +248,14 @@ export default function Submission() {
                 <SheetTitle>Submission Logs</SheetTitle>
               </SheetHeader>
               <div className="flex-1 min-h-0 overflow-auto bg-black text-white p-4 rounded mx-4 mb-4">
-                {errorLog === null ? "Loading..." : <pre>{errorLog}</pre>}
+                {errorLog === null ? (
+                  <div className="flex gap-2">
+                    <Loader2 className="animate-spin" />
+                    <pre>Loading logs</pre>
+                  </div>
+                ) : (
+                  <pre>{errorLog}</pre>
+                )}
               </div>
             </SheetContent>
           </Sheet>

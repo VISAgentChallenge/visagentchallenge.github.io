@@ -16,29 +16,34 @@ export async function GET(
   // Construct the backend URL for the error log file
   const backendUrl = `${process.env.API_ENDPOINT}/output/${submission_id}/error.log`;
 
-  // Fetch the error log from the backend
-  const apiRes = await fetch(backendUrl, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-  });
+  try {
+    // Fetch the error log from the backend
+    const apiRes = await fetch(backendUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+    });
 
-  if (!apiRes.ok) {
-    // Forward the error from the backend
-    const error = await apiRes.json().catch(() => ({ error: "Failed to fetch error log" }));
-    return NextResponse.json(error, { status: apiRes.status });
+    // Handle errors
+    if (!apiRes.ok) {
+      const error = await apiRes.json();
+      const errMessage = error.detail;
+      return NextResponse.json({ error: errMessage }, { status: apiRes.status });
+    }
+
+    // Get the error log as text
+    const logText = await apiRes.text();
+
+    // Return the error log as plain text
+    return new NextResponse(logText, {
+      status: 200,
+      headers: {
+        "Content-Type": "text/plain",
+        "Content-Disposition": `inline; filename=error.log`,
+      },
+    });
+  } catch {
+    return NextResponse.json({ error: "Disconnected from server" }, { status: 500 });
   }
-
-  // Get the error log as text
-  const logText = await apiRes.text();
-
-  // Return the error log as plain text
-  return new NextResponse(logText, {
-    status: 200,
-    headers: {
-      "Content-Type": "text/plain",
-      "Content-Disposition": `inline; filename=error.log`,
-    },
-  });
 }

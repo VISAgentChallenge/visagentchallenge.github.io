@@ -9,15 +9,26 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Fetch submissions from the backend
-  const apiRes = await fetch(`${process.env.API_ENDPOINT}/list/submissions`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    // Fetch submissions from the backend
+    const apiRes = await fetch(`${process.env.API_ENDPOINT}/list/submissions`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-  const data = await apiRes.json();
-  return NextResponse.json(data, { status: apiRes.status });
+    // Handle errors
+    if (!apiRes.ok) {
+      const error = await apiRes.json();
+      const errMessage = error.detail;
+      return NextResponse.json({ error: errMessage }, { status: apiRes.status });
+    }
+
+    const data = await apiRes.json();
+    return NextResponse.json(data, { status: apiRes.status });
+  } catch {
+    return NextResponse.json({ error: "Disconnected from server" }, { status: 500 });
+  }
 }
