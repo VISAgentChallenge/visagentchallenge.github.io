@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
 import Footer from "@/components/Footer";
@@ -7,6 +7,7 @@ import "../lib/polyfills";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -14,9 +15,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "AI Agent & VIS",
-  description: "The website for AI Agent & VIS workshop",
+  title: "VISxGenAI Challenge",
+  description: "The website for VISxGenAI Workshop Challenge",
+  icons: {
+    icon: "/fav.svg",
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${inter.variable}`}>
         <TopNavBarWrapper />
         <div className="min-h-screen">{children}</div>
         <Footer />

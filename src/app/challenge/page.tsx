@@ -22,24 +22,22 @@ export default function Challenge() {
   return (
     <div className="p-12 flex flex-col gap-2">
       <div className="py-12 px-4">
-        <div className="flex flex-col max-w-5xl mx-auto gap-8">
+        <div className="flex flex-col max-w-5xl mx-auto gap-2">
           {/* put stuff here to keep the stylistic consistency */}
           <h1 className="text-3xl font-bold">Mini Challenge</h1>
           <div className="p-4">
             {" "}
-            The mini challenge encourages the exploration of how AI agents can
+            The mini challenge encourages the exploration of how agentic AI can
             automate data visualization and visual analytics.
-            <br />
-            <br />
             We provides the dataset to visualize (
             <a
               href="https://sites.google.com/site/vispubdata/home"
-              className="bg-gray-100 p-1 rounded-md"
+              className="bg-gray-100 p-1 rounded-md hover:bg-gray-200"
             >
               VisPubData
             </a>
             ), alongside a agentic template capable of inputting
-            and analyzing dataset, and producing concise one-page reports. The
+            and analyzing dataset, and producing concise data visualization reports. The
             template is to help get started quickly.
           </div>
 
@@ -76,7 +74,7 @@ export default function Challenge() {
             The template as baseline is available at{" "}
             <a
               href="https://github.com/demoPlz/mini-template"
-              className="bg-blue-100 p-1 rounded-md text-500"
+              className="bg-blue-100 p-1 rounded-md text-500 hover:bg-blue-200"
             >
               Mini Challenge Template
             </a>
@@ -89,7 +87,7 @@ export default function Challenge() {
             throughout the challenge.
 
             <div className="mt-10">
-              <a href="/guides" className="bg-green-100 p-2 rounded-md text-500 border border-green-200 font-semibold hover:bg-green-200">
+              <a href="/guides" className="bg-green-100 p-2 rounded-md text-xl border border-green-200 font-semibold hover:bg-green-200">
                 Guides: How to submit with the template?
               </a>
             </div>
@@ -149,7 +147,7 @@ export default function Challenge() {
                   <span className="bg-yellow-100 p-1 rounded-md">
                     agent.py
                   </span>{" "}
-                  with your class agent and produces an{" "}
+                  with your class agent and produces the output, e.g.,{" "}
                   <span className="bg-yellow-100 p-1 rounded-md">
                     output.pdf
                   </span>{" "}
@@ -199,8 +197,9 @@ export default function Challenge() {
             <h1 className="text-2xl font-bold mb-2">Organizers</h1>
             <p>
               {organizers.map((organizer, index) => (
-                <div key={index}>
-                  <b>{organizer.name}</b> - {organizer.affiliation}
+                <div key={index} className="flex flex-col space-y-1.5 sm:flex-row sm:space-x-4">
+                  <span className="font-semibold">{organizer.name}</span>  
+                  <span className="text-muted-foreground">{organizer.affiliation}</span>
                 </div>
               ))}
             </p>

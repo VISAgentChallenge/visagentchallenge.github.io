@@ -5,7 +5,7 @@ export default async function LandingPage() {
   return (
     <>
       {/* content section */}
-      <div className="py-12 px-4">
+      <div className="py-25 px-4">
         <div className="flex flex-col max-w-5xl mx-auto gap-10">
           {/* workshop intro: workshop poster, headline, short intro */}
           <div className="relative z-10 flex justify-center h-full p-1">
@@ -30,7 +30,8 @@ export default async function LandingPage() {
                 observe, act, and learn from their environments—offer a fundamentally different
                 approach from traditional AI models that passively respond to input. These agentic
                 AI systems are rapidly reshaping how we approach data-intensive tasks and providing
-                new opportunities for the VIS community. Imagine an agent autonomously generating
+                new opportunities for the VIS community. 
+                {/* Imagine an agent autonomously generating
                 visualizations to analyze complex data, discovering patterns collaboratively,
                 testing hypotheses, and communicating visual insights at a speed and scale beyond
                 human capability. Yet, the emergence of these powerful systems raises critical
@@ -40,11 +41,11 @@ export default async function LandingPage() {
                 analysts, suitable for agent interactions? How can VIS designers effectively
                 integrate agents into their workflows without compromising human agency? And to what
                 extent should agents help shape and educate the next generation of visualization
-                researchers?
+                researchers? */}
               </div>
 
               <div>
-                Through a mix of keynote talks, paper presentations, and a mini-challenge, this
+                Through a mix of keynote talks, paper presentations, and a <span className="font-bold">mini-challenge</span>, this
                 workshop invites researchers and practitioners to share innovative ideas, explore
                 these questions, and discuss strategies to transform the impact of VIS for a future
                 where human and AI agents co-exist.
@@ -60,11 +61,11 @@ export default async function LandingPage() {
                 <div>
                   In parallel to soliciting the submission of relevant scientific works, the
                   workshop hosts a mini challenge on{" "}
-                  <span className="font-bold">AI agents data visualization</span>. Participants are
-                  encouraged to build on the existing template by developing agents with improved
+                  <span className="font-bold">AI agents data visualization</span>. We invite
+                  participants to build on the existing template by developing agents with improved
                   reasoning and coordination strategies. The objective is to generate more
                   insightful, coherent, and visually compelling analyses of the provided dataset, in
-                  the form of a one-page PDF report.
+                  the form of a data visualization report.
                 </div>
               </li>
               <li>
@@ -73,7 +74,7 @@ export default async function LandingPage() {
                 </span>
               </li>
               <li>
-                <a href="/challenge" className="bg-blue-100 p-1 rounded-md">
+                <a href="/challenge" className="bg-blue-100 p-2 m-2 rounded-md text-xl">
                   {`🏅 Get started with the challenge`}
                 </a>
               </li>
