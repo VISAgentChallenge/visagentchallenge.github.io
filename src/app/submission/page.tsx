@@ -10,21 +10,28 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { AlertCircle, FileText, Loader2 } from "lucide-react";
+import { AlertCircle, Check, FileText, Loader2 } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import PDFViewer from "@/components/PDFViewer";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import type { Submission, SubmissionList } from "@/lib/types";
+import { toast } from "sonner";
 
 export default function Submission() {
-  const [submissions, setSubmissions] = useState([]);
+  const [finalSubmissionId, setFinalSubmissionId] = useState<string>();
+  const [isMarkingAsFinal, setIsMarkingAsFinal] = useState(false);
+
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [showSheet, setShowSheet] = useState(false);
+
+  const [showPdfSheet, setShowPdfSheet] = useState(false);
+  const [showErrorSheet, setShowErrorSheet] = useState(false);
+
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [errorLog, setErrorLog] = useState<string | null>(null);
-  const [showErrorSheet, setShowErrorSheet] = useState(false);
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -36,8 +43,9 @@ export default function Submission() {
           const data = await res.json();
           throw new Error(data.error || "Failed to fetch submissions");
         }
-        const data = await res.json();
+        const data = (await res.json()) as SubmissionList;
         setSubmissions(data.submissions || []);
+        setFinalSubmissionId(data.submissions.find((s: Submission) => s.isFinal)?.id);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
@@ -49,7 +57,7 @@ export default function Submission() {
 
   const handleOpenPDF = (submissionId: string) => {
     setPdfUrl(`/api/output/${submissionId}/output.pdf`);
-    setShowSheet(true);
+    setShowPdfSheet(true);
   };
 
   const handleOpenErrorLog = async (submissionId: string) => {
@@ -65,6 +73,28 @@ export default function Submission() {
       setErrorLog(log);
     } catch (err) {
       setErrorLog(err instanceof Error ? err.message : "Unknown error");
+    }
+  };
+
+  const handleMarkAsFinal = async (submissionId: string) => {
+    try {
+      setIsMarkingAsFinal(true);
+      const res = await fetch(`/api/finalize?submission_id=${submissionId}`, {
+        method: "POST",
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error);
+      }
+      toast.success("Submission marked as final");
+      setIsMarkingAsFinal(false);
+      setFinalSubmissionId(submissionId);
+    } catch (err) {
+      setIsMarkingAsFinal(false);
+      toast.error("Failed to mark as final", {
+        description: err instanceof Error ? err.message : "An unexpected error occurred",
+      });
     }
   };
 
@@ -94,8 +124,9 @@ export default function Submission() {
                 <Table className="border-collapse">
                   <TableHeader>
                     <TableRow className="bg-gray-100">
-                      <TableHead className="px-4 bg-gray-100">Submitted At</TableHead>
+                      <TableHead className="px-4 bg-gray-100">Submitted on</TableHead>
                       <TableHead className="text-center bg-gray-100">Status</TableHead>
+                      <TableHead className="text-center bg-gray-100">Time (s)</TableHead>
                       <TableHead className="text-center bg-gray-100">View</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -110,20 +141,51 @@ export default function Submission() {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      submissions.map((submission: any) => (
-                        <TableRow key={submission.id}>
-                          <TableCell className="px-4">
-                            {formatDateTime(submission.created_at)}
+                      submissions.map((submission) => (
+                        <TableRow key={submission.id} className="group">
+                          <TableCell className="pl-4">
+                            <div className="flex gap-2 w-[100px]">
+                              {formatDateTime(submission.created_at)}
+                              {finalSubmissionId !== submission.id && (
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMarkAsFinal(submission.id);
+                                  }}
+                                  className="cursor-pointer group-hover:opacity-100 opacity-0 transition-opacity duration-300 flex gap-2 items-center px-3 py-1 rounded-full text-xs font-semibold bg-neutral-100 text-neutral-500"
+                                >
+                                  {isMarkingAsFinal ? (
+                                    <Loader2 className="size-4 animate-spin" />
+                                  ) : (
+                                    <>
+                                      <Check className="size-4" />
+                                      Mark as Final
+                                    </>
+                                  )}
+                                </span>
+                              )}
+                              {finalSubmissionId === submission.id && (
+                                <span className="flex gap-2 items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                  <Check className="size-4" />
+                                  Finalized
+                                </span>
+                              )}
+                            </div>
                           </TableCell>
                           <TableCell className="text-center">
                             <StatusBadge status={submission.status} />
+                          </TableCell>
+                          <TableCell className="text-center">
+                            {submission.metrics?.total_time
+                              ? Number(submission.metrics.total_time).toFixed(2)
+                              : "-"}
                           </TableCell>
                           <TableCell className="text-center">
                             {submission.status === "SUCCESS" ? (
                               <Button
                                 variant="link"
                                 className="cursor-pointer"
-                                onClick={() => handleOpenPDF(submission.id)}
+                                onClick={() => handleOpenPDF(submission.id.toString())}
                               >
                                 <FileText />
                                 PDF
@@ -132,10 +194,10 @@ export default function Submission() {
                               <Button
                                 variant="link"
                                 className="cursor-pointer text-red-600"
-                                onClick={() => handleOpenErrorLog(submission.id)}
+                                onClick={() => handleOpenErrorLog(submission.id.toString())}
                               >
                                 <AlertCircle />
-                                Error Log
+                                Logs
                               </Button>
                             ) : (
                               <Button variant="link" className="cursor-not-allowed" disabled>
@@ -154,7 +216,7 @@ export default function Submission() {
           </div>
 
           {/* PDF Viewer Sheet */}
-          <Sheet open={showSheet} onOpenChange={setShowSheet}>
+          <Sheet open={showPdfSheet} onOpenChange={setShowPdfSheet}>
             <SheetContent
               side="right"
               className="h-full min-w-[50vw] max-w-3xl flex flex-col"
@@ -175,7 +237,7 @@ export default function Submission() {
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
               <SheetHeader>
-                <SheetTitle>Error Log</SheetTitle>
+                <SheetTitle>Submission Logs</SheetTitle>
               </SheetHeader>
               <div className="flex-1 min-h-0 overflow-auto bg-black text-white p-4 rounded mx-4 mb-4">
                 {errorLog === null ? "Loading..." : <pre>{errorLog}</pre>}

@@ -8,27 +8,15 @@ import PDFThumbnail from "./PDFThumbnail";
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { CircleAlert } from "lucide-react";
 import PdfViewer from "./PDFViewer";
-
-type Submission = {
-  id: number;
-  status: string;
-  created_at: string;
-  updated_at: string;
-  score: number;
-  isFinal: boolean;
-  metrics: { total_time: number };
-  username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-};
+import { formatDateTime } from "@/lib/utils";
+import { Submission } from "@/lib/types";
 
 export default function LeaderboardGallery() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const [openId, setOpenId] = useState<number>();
+  const [openId, setOpenId] = useState<string>();
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -95,9 +83,9 @@ export default function LeaderboardGallery() {
                           {submission.first_name} {submission.last_name}
                         </div>
                         <div className="text-xs text-gray-500 mt-1">
-                          <span className="font-semibold">Submitted at:</span>
+                          <span className="font-semibold">Submitted on</span>
                           <br />
-                          {new Date(submission.updated_at).toLocaleString()}
+                          {formatDateTime(submission.updated_at)}
                         </div>
                       </CardContent>
                     </Card>
