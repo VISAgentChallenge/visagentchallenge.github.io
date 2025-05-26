@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { LogOut, LogIn, Milestone, Home, Layers2 } from "lucide-react";
+import { LogOut, LogIn, Milestone, Home, Layers2, Book } from "lucide-react";
 import { logout } from "@/actions/logout";
 import { redirect, useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -21,7 +21,9 @@ export default function TopNavBar({ session }: { session: Session | null }) {
   return (
     <nav className="p-4 w-full border-b">
       <div className="container max-w-5xl mx-auto flex justify-between items-center">
-        <div className="text-lg font-bold">AI Agent & VIS workshop</div>
+          <a onClick={() => redirect("/")} className="hover:text-[#7a0019] text-lg font-bold cursor-pointer"> 
+            AI Agent & VIS workshop 2025
+          </a>
         <div className="flex space-x-4">
           <Button variant={"ghost"} onClick={() => redirect("/")}>
             <Home className="h-5 w-5" />
@@ -30,6 +32,10 @@ export default function TopNavBar({ session }: { session: Session | null }) {
           <Button variant={"ghost"} onClick={() => redirect("/challenge")}>
             <Milestone className="h-5 w-5" />
             <span>Challenge</span>
+          </Button>
+          <Button variant={"ghost"} onClick={() => redirect("/guides")}>
+            <Book className="h-5 w-5" />
+            <span>Guides</span>
           </Button>
           {session?.user && (
             <Button variant={"ghost"} onClick={() => redirect("/submission")}>

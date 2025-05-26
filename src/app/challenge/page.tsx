@@ -1,6 +1,24 @@
 "use client";
-import SubmissionGuide from "@/components/SubmissionGuide";
 export default function Challenge() {
+  const organizers = [
+    { name: 'Zhu-Tian Chen', affiliation: 'University of Minnesota' },
+    { name: 'Qianwen Wang', affiliation: 'University of Minnesota' },
+    { name: 'Pan Hao', affiliation: 'University of Minnesota' },
+    { name: 'Divyanshu Tiwari', affiliation: 'University of Minnesota' },
+    { name: 'James Yang', affiliation: 'University of Minnesota' },
+    { name: 'Shivam Raval', affiliation: 'Harvard University' },
+    { name: 'Enrico Bertini', affiliation: 'Northeastern University' },
+    { name: 'Trevor DePodesta', affiliation: 'Harvard University' },
+    { name: 'Niklas Elmqvist', affiliation: 'Aarhus University' },
+    { name: 'Nam Wook Kim', affiliation: 'Boston College' },
+    { name: 'Yun Wang', affiliation: 'Microsoft Research' },
+    { name: 'Emily Reif', affiliation: 'Google Research & University of Washington' },
+    { name: 'Pranav Rajan', affiliation: 'KTH Royal Institute of Technology' },
+    { name: 'Renata G. Raidou', affiliation: 'TU Wien' },
+    { name: 'Olivia Seow', affiliation: 'Harvard University' },
+    { name: 'Catherine Yeh', affiliation: 'Harvard University' },
+  ];
+
   return (
     <div className="p-12 flex flex-col gap-2">
       <div className="py-12 px-4">
@@ -13,14 +31,14 @@ export default function Challenge() {
             automate data visualization and visual analytics.
             <br />
             <br />
-            We will provide the dataset to visualize (
+            We provides the dataset to visualize (
             <a
               href="https://sites.google.com/site/vispubdata/home"
               className="bg-gray-100 p-1 rounded-md"
             >
               VisPubData
             </a>
-            ), alongside a multi-agent workflow template capable of inputting
+            ), alongside a agentic template capable of inputting
             and analyzing dataset, and producing concise one-page reports. The
             template is to help get started quickly.
           </div>
@@ -69,6 +87,12 @@ export default function Challenge() {
             a maximum of{" "}
             <span className="bg-gray-100 p-1 rounded-md">100 times</span>{" "}
             throughout the challenge.
+
+            <div className="mt-10">
+              <a href="/guides" className="bg-green-100 p-2 rounded-md text-500 border border-green-200 font-semibold hover:bg-green-200">
+                Guides: How to submit with the template?
+              </a>
+            </div>
           </div>
 
           {/* leaderboards section */}
@@ -163,27 +187,31 @@ export default function Challenge() {
             <h1 className="text-2xl font-bold mb-2">Forum</h1>
             <p>
               Please join the{" "}
-              <a href="" className="bg-purple-100 p-1 rounded-md text-500">
+              <a href="https://discord.gg/MqVn2df5Us" className="bg-purple-100 p-1 rounded-md text-500 hover:bg-purple-200">
                 Discord server
               </a>{" "}
               and discuss more about the challenge.
             </p>
           </div>
 
-          {/* Awards section */}
-          <div className="p-4">
-            <h1 className="text-2xl font-bold mb-2">Awards</h1>
-            <p>TBD</p>
-          </div>
-
           {/* Organizers section */}
           <div className="p-4">
             <h1 className="text-2xl font-bold mb-2">Organizers</h1>
-            <p>This challenge is organized by, sponsored by.</p>
+            <p>
+              {organizers.map((organizer, index) => (
+                <div key={index}>
+                  <b>{organizer.name}</b> - {organizer.affiliation}
+                </div>
+              ))}
+            </p>
+          </div>
+          {/* Awards section */}
+          <div className="p-4">
+            <h1 className="text-2xl font-bold mb-2">Awards</h1>
+            <p>Coming soon!</p>
           </div>
         </div>
       </div>
-      <SubmissionGuide />
     </div>
   );
 }
