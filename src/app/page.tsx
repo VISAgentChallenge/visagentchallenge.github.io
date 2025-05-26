@@ -23,7 +23,7 @@ export default async function LandingPage() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="text-3xl font-bold">{`The workshop`}</h2>
+            <h2 className="text-3xl font-bold">The workshop</h2>
             <div className="space-y-4 my-3">
               <div>
                 Recent advances in agents—autonomous, goal-driven AI systems that iteratively
@@ -55,7 +55,7 @@ export default async function LandingPage() {
 
           {/* Challenge overview */}
           <div className="flex flex-col gap-4">
-            <h2 className="text-3xl font-bold">{`The Challenge`}</h2>
+            <h2 className="text-3xl font-bold">The Challenge</h2>
             <ul className="space-y-4 my-3">
               <li>
                 <div>
@@ -70,18 +70,20 @@ export default async function LandingPage() {
               </li>
               <li>
                 <span className="font-bold">
-                  {`Submitted papers do not need to be linked with the challenge. `}
+                  Submitted papers do not need to be linked with the challenge.
                 </span>
               </li>
               <li>
+
                 <a href="/challenge" className="bg-blue-100 p-2 m-2 rounded-md text-xl">
                   {`🏅 Get started with the challenge`}
+
                 </a>
               </li>
             </ul>
           </div>
           <div className="flex flex-col gap-4">
-            <h2 className="text-3xl font-bold">{`Important Dates`}</h2>
+            <h2 className="text-3xl font-bold">Important Dates</h2>
             <ul className="list-disc list-inside space-y-2">
               <li>May 30th, 2025: Call for Participation</li>
               <li>Aug 20th, 2025: Paper Submission Deadline </li>
@@ -93,7 +95,7 @@ export default async function LandingPage() {
 
           {/* submission gallery  */}
           <div className="flex flex-col gap-4">
-            <h2 className="text-3xl font-bold">{`Leaderboard`}</h2>
+            <h2 className="text-3xl font-bold">Leaderboard</h2>
             <span className="my-3">
               Finalized submissions from all participants are shown here. Feel free to have a look
               what others have created! Use the search bar below to find submissions by name.

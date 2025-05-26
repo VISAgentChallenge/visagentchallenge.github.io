@@ -1,9 +1,18 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
-import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
-import Footer from "@/components/Footer";
 import "../lib/polyfills";
+import type { Metadata } from "next";
+
+import { Geist, Geist_Mono, Inter } from "next/font/google";
+
+
+import Footer from "@/components/Footer";
+import { SessionProvider } from "next-auth/react";
+
+
+import TopNavBarWrapper from "@/components/TopNavBar/TopNavBarWrapper";
+import { auth } from "@/auth";
+import { Toaster } from "sonner";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,16 +38,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
+
       <body className={`${inter.variable}`}>
+        <Toaster />
         <TopNavBarWrapper />
-        <div className="min-h-screen">{children}</div>
+        <SessionProvider session={session}>
+          <div className="min-h-screen">{children}</div>
+        </SessionProvider>
         <Footer />
       </body>
     </html>

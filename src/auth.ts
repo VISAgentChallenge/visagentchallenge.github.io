@@ -67,7 +67,7 @@ export const {
             firstName: data.user.first_name,
             lastName: data.user.last_name,
             createdAt: data.user.created_at,
-            accessToken: data.accessToken,
+            accessToken: data.access_token,
           };
         } catch (error) {
           console.error("Error signing in via Credentials:", error);
@@ -98,7 +98,7 @@ export const {
           user.firstName = data.user.first_name;
           user.lastName = data.user.last_name;
           user.createdAt = data.user.created_at;
-          user.accessToken = data.accessToken;
+          user.accessToken = data.access_token;
         }
         return true;
       } catch (error) {

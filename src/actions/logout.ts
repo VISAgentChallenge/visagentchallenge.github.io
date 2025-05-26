@@ -1,10 +1,10 @@
 "use server";
+
 import { signOut } from "@/auth";
 
 export async function logout() {
   try {
-    console.log("Logging out...");
-    await signOut({ redirectTo: "/" });
+    await signOut({ redirect: false });
   } catch (error) {
     return error;
   }

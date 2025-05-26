@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { LogOut, LogIn, Milestone, Home, Layers2, Book } from "lucide-react";
 import { logout } from "@/actions/logout";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 export default function TopNavBar({ session }: { session: Session | null }) {
@@ -13,12 +13,14 @@ export default function TopNavBar({ session }: { session: Session | null }) {
     try {
       await logout();
       router.refresh();
+      router.push("/");
     } catch (error) {
       console.error("Error during logout:", error);
     }
   };
 
   return (
+
     <nav className="fixed top-0 w-full z-50 py-5.5 px-10 font-sans text-lg"
       style={{
         backgroundColor: `rgba(218, 234, 245, 0.5)`,
@@ -44,6 +46,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
           <Button variant={"ghost"} onClick={() => redirect("/challenge")}
             className="px-3 py-2 rounded-md text-base transition-colors text-[#333] hover:bg-[#ACD2ED] font-normal"
           >
+
             <Milestone className="h-5 w-5" />
             <span>Challenge</span>
           </Button>
@@ -54,9 +57,11 @@ export default function TopNavBar({ session }: { session: Session | null }) {
             <span>Guides</span>
           </Button>
           {session?.user && (
+
             <Button variant="ghost" onClick={() => redirect("/submission")}
               className="px-3 py-2 rounded-md text-base transition-colors text-[#333] hover:bg-[#ACD2ED] font-normal"
             >
+
               <Layers2 className="h-5 w-5" />
               <span>Submissions</span>
             </Button>
@@ -69,9 +74,11 @@ export default function TopNavBar({ session }: { session: Session | null }) {
               <span>Logout</span>
             </Button>
           ) : (
+
             <Button variant="ghost" onClick={() => redirect("/signin")}
               className="px-3 py-2 rounded-md text-base transition-colors text-[#333] hover:bg-[#ACD2ED] font-normal"
             >
+
               <LogIn className="h-5 w-5" />
               <span>Login</span>
             </Button>

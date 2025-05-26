@@ -1,4 +1,5 @@
-// PdfViewer.tsx
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import { pdfjs, Document, Page } from "react-pdf";
 import { VariableSizeList as List } from "react-window";

@@ -28,6 +28,8 @@ export default function LeaderboardGallery() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const [openId, setOpenId] = useState<number>();
+
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
@@ -76,13 +78,18 @@ export default function LeaderboardGallery() {
                 <Skeleton key={i} className="h-40 rounded-sm" />
               ))
             : filteredSubmissions.map((submission) => (
-                <Sheet key={submission.id}>
+                <Sheet
+                  key={submission.id}
+                  open={openId === submission.id}
+                  onOpenChange={(open) => setOpenId(open ? submission.id : undefined)}
+                >
                   <SheetTrigger asChild>
                     <Card className="rounded-md shadow-md hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100">
                       <CardContent className="p-4">
                         <PDFThumbnail
                           pdfUrl={`/api/pdf/${submission.id}`}
                           className="mb-3 w-full border border-gray-100 rounded-xs overflow-clip"
+                          onItemClick={() => setOpenId(submission.id)}
                         />
                         <div className="font-semibold text-lg">
                           {submission.first_name} {submission.last_name}

@@ -47,6 +47,9 @@ jobs:
           ###### End of Repository/Build Configurations ######
         env:
           API_ENDPOINT: ${{ secrets.API_ENDPOINT }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
+          AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
