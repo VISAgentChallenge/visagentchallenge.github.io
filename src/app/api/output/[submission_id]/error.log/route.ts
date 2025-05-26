@@ -44,6 +44,6 @@ export async function GET(
       },
     });
   } catch {
-    return NextResponse.json({ error: "Disconnected from server" }, { status: 500 });
+    return NextResponse.json({ error: "Unable to fetch from server" }, { status: 500 });
   }
 }

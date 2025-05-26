@@ -39,6 +39,6 @@ export async function POST(req: NextRequest) {
     const data = await apiRes.json();
     return NextResponse.json(data, { status: apiRes.status });
   } catch {
-    return NextResponse.json({ error: "Disconnected from server" }, { status: 500 });
+    return NextResponse.json({ error: "Unable to fetch from server" }, { status: 500 });
   }
 }

@@ -18,14 +18,14 @@ const PDFThumbnail = ({
   onItemClick,
 }: PDFThumbnailProps) => {
   const Loading = () => (
-    <div className="flex flex-col justify-center items-center text-xs h-full bg-gray-100 text-gray-500">
+    <div className="flex flex-col justify-center items-center text-xs h-full bg-gray-100 text-gray-500 p-4">
       <Loader2 className="animate-spin" />
       Loading thumbnail
     </div>
   );
 
   const Error = () => (
-    <div className="flex flex-col text-xs justify-center items-center h-20 bg-gray-100 text-red-500">
+    <div className="flex flex-col text-xs justify-center items-center h-20 bg-gray-100 text-red-500 p-4">
       <CircleAlert className="mr-2" />
       Failed to load thumbnail
     </div>

@@ -35,6 +35,6 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ message: "Submission marked as final" }, { status: 200 });
   } catch {
-    return NextResponse.json({ error: "Disconnected from server" }, { status: 500 });
+    return NextResponse.json({ error: "Unable to fetch from server" }, { status: 500 });
   }
 }
