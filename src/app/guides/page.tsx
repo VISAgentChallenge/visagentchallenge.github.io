@@ -69,7 +69,7 @@ export default function SubmissionGuide() {
             <div className="p-4 bg-white rounded-lg shadow">
               <h2 className="text-2xl font-semibold mb-2 font-f">Step 5: Manage Your Submissions</h2>
               <p>
-                View all your submissions with the status and the results.
+                View all your submissions with the status and the results. Select one of the submissions as your finalized one to display in the public leaderboard.
               </p>
               <div className="mt-4">
                 <img
