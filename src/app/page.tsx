@@ -21,7 +21,7 @@ export default async function LandingPage() {
             />
             <div className="absolute inset-0 bg-black/0" />
           </div>
-
+{/* 
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">The workshop</h2>
             <div className="space-y-4 my-3">
@@ -41,7 +41,7 @@ export default async function LandingPage() {
                 analysts, suitable for agent interactions? How can VIS designers effectively
                 integrate agents into their workflows without compromising human agency? And to what
                 extent should agents help shape and educate the next generation of visualization
-                researchers? */}
+                researchers? 
               </div>
 
               <div>
@@ -51,11 +51,12 @@ export default async function LandingPage() {
                 where human and AI agents co-exist.
               </div>
             </div>
-          </div>
+          </div> 
+          */}
 
           {/* Challenge overview */}
           <div className="flex flex-col gap-4">
-            <h2 className="text-3xl font-bold">The Challenge</h2>
+            <h2 className="text-3xl font-bold">About the Challenge</h2>
             <ul className="space-y-4 my-3">
               <li>
                 <div>
@@ -82,7 +83,7 @@ export default async function LandingPage() {
               </li>
             </ul>
           </div>
-          <div className="flex flex-col gap-4">
+          {/* <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Important Dates</h2>
             <ul className="list-disc list-inside space-y-2">
               <li>May 30th, 2025: Call for Participation</li>
@@ -91,7 +92,7 @@ export default async function LandingPage() {
               <li>Oct 1st, 2025: Camera-Ready Deadline</li>
               <li>Nov 2nd or 3rd: Workshop Day, TBD</li>
             </ul>
-          </div>
+          </div> */}
 
           {/* submission gallery  */}
           <div className="flex flex-col gap-4">

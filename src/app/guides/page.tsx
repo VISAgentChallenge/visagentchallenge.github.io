@@ -70,7 +70,7 @@ export default function SubmissionGuide() {
               </p>
               <div className="mt-4">
                 <img
-                  src="./screenshots/running.png"
+                  src="./screenshots/running-status.png"
                   alt="Screenshot of running submission"
                 />
               </div>
