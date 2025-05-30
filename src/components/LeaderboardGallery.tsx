@@ -14,6 +14,7 @@ import { Submission } from "@/lib/types";
 export default function LeaderboardGallery() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [search, setSearch] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [openId, setOpenId] = useState<string>();
@@ -27,10 +28,17 @@ export default function LeaderboardGallery() {
             "Content-Type": "application/json",
           },
         });
+
+        if (!res.ok) {
+          const data = await res.json();
+          setError(data.error || "An unexpected error occurred");
+        }
+
         const data = await res.json();
         setSubmissions(data.submissions);
-      } catch (err) {
-        console.error("Failed to fetch leaderboard:", err);
+        setError("");
+      } catch {
+        setError("Unable to fetch from server");
       } finally {
         setLoading(false);
       }
@@ -51,59 +59,67 @@ export default function LeaderboardGallery() {
           placeholder="Search by name"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-80 rounded-sm shadow-none"
+          className="rounded-sm shadow-none sm:w-full md:w-1/2 lg:w-80"
         />
       </div>
-      {!loading && filteredSubmissions.length === 0 ? (
+
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <Skeleton key={i} className="h-40 rounded-sm" />
+          ))}
+        </div>
+      ) : error ? (
+        <div className="flex flex-col items-center justify-center h-64 text-red-500 bg-gray-50 w-full rounded-sm border border-gray-200">
+          <CircleAlert className="size-6 mb-2" />
+          <span className="text-md">{error}</span>
+        </div>
+      ) : filteredSubmissions.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-64 text-gray-400 bg-gray-50 w-full rounded-sm border border-gray-200">
-          <CircleAlert size={48} className="mb-2" />
-          <span className="text-md font-medium text-center">Submissions not found.</span>
+          <CircleAlert className="size-6 mb-2" />
+          <span className="text-md">No submissions found</span>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {loading
-            ? Array.from({ length: 12 }).map((_, i) => (
-                <Skeleton key={i} className="h-40 rounded-sm" />
-              ))
-            : filteredSubmissions.map((submission) => (
-                <Sheet
-                  key={submission.id}
-                  open={openId === submission.id}
-                  onOpenChange={(open) => setOpenId(open ? submission.id : undefined)}
-                >
-                  <SheetTrigger asChild>
-                    <Card className="rounded-md shadow-md hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100">
-                      <CardContent className="p-4">
-                        <PDFThumbnail
-                          pdfUrl={`/api/pdf/${submission.id}`}
-                          className="mb-3 w-full border border-gray-100 rounded-xs overflow-clip"
-                          onItemClick={() => setOpenId(submission.id)}
-                        />
-                        <div className="font-semibold text-lg">
-                          {submission.first_name} {submission.last_name}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          <span className="font-semibold">Submitted on</span>
-                          <br />
-                          {formatDateTime(submission.updated_at)}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </SheetTrigger>
-                  <SheetContent
-                    side="right"
-                    className="h-full min-w-1/2"
-                    onOpenAutoFocus={(e) => e.preventDefault()}
-                  >
-                    <SheetHeader>
-                      <SheetTitle>
-                        Submission by {submission.first_name} {submission.last_name}
-                      </SheetTitle>
-                    </SheetHeader>
-                    <PdfViewer pdfUrl={`/api/pdf/${submission.id}`} />
-                  </SheetContent>
-                </Sheet>
-              ))}
+          {filteredSubmissions.map((submission) => (
+            <Sheet
+              key={submission.id}
+              open={openId === submission.id}
+              onOpenChange={(open) => setOpenId(open ? submission.id : undefined)}
+            >
+              <SheetTrigger asChild>
+                <Card className="w-fit rounded-md shadow-sm hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100 hover:shadow-gray-200 justify-self-center">
+                  <CardContent className="p-4">
+                    <PDFThumbnail
+                      pdfUrl={`/api/pdf/${submission.id}`}
+                      className="mb-3 w-fit border border-gray-100 rounded-xs overflow-clip"
+                      onItemClick={() => setOpenId(submission.id)}
+                    />
+                    <div className="font-semibold text-lg">
+                      {submission.first_name} {submission.last_name}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      <span className="font-semibold">Submitted on</span>
+                      <br />
+                      {formatDateTime(submission.updated_at)}
+                    </div>
+                  </CardContent>
+                </Card>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="h-full min-w-1/2"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <SheetHeader>
+                  <SheetTitle>
+                    Submission by {submission.first_name} {submission.last_name}
+                  </SheetTitle>
+                </SheetHeader>
+                <PdfViewer pdfUrl={`/api/pdf/${submission.id}`} />
+              </SheetContent>
+            </Sheet>
+          ))}
         </div>
       )}
     </div>

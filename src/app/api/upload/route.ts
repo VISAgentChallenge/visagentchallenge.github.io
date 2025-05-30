@@ -19,22 +19,26 @@ export async function POST(req: NextRequest) {
   const backendFormData = new FormData();
   backendFormData.append("file", file, file.name);
 
-  // Forward the file to the FastAPI backend
-  const apiRes = await fetch(`${process.env.API_ENDPOINT}/submit`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-    body: backendFormData,
-  });
+  try {
+    // Forward the file to the FastAPI backend
+    const apiRes = await fetch(`${process.env.API_ENDPOINT}/submit`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      body: backendFormData,
+    });
 
-  const contentType = apiRes.headers.get("content-type");
-  let data;
-  if (contentType && contentType.includes("application/json")) {
-    data = await apiRes.json();
-  } else {
-    data = { message: await apiRes.text() };
+    // Handle errors
+    if (!apiRes.ok) {
+      const error = await apiRes.json();
+      const errMessage = error.detail;
+      return NextResponse.json({ error: errMessage }, { status: apiRes.status });
+    }
+
+    const data = await apiRes.json();
+    return NextResponse.json(data, { status: apiRes.status });
+  } catch {
+    return NextResponse.json({ error: "Unable to fetch from server" }, { status: 500 });
   }
-
-  return NextResponse.json(data, { status: apiRes.status });
 }

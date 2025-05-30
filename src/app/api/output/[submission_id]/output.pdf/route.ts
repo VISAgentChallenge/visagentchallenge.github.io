@@ -16,30 +16,35 @@ export async function GET(
   // Construct the backend URL for the PDF file
   const backendUrl = `${process.env.API_ENDPOINT}/output/${submission_id}/output.pdf`;
 
-  // Fetch the PDF from the backend
-  const apiRes = await fetch(backendUrl, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-      "Content-Type": "application/pdf",
-    },
-  });
+  try {
+    // Fetch the PDF from the backend
+    const apiRes = await fetch(backendUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+        "Content-Type": "application/pdf",
+      },
+    });
 
-  if (!apiRes.ok) {
-    // Forward the error from the backend
-    const error = await apiRes.json().catch(() => ({ error: "Failed to fetch PDF" }));
-    return NextResponse.json(error, { status: apiRes.status });
+    // Handle errors
+    if (!apiRes.ok) {
+      const error = await apiRes.json();
+      const errMessage = error.detail;
+      return NextResponse.json({ error: errMessage }, { status: apiRes.status });
+    }
+
+    // Get the PDF as a buffer
+    const pdfBuffer = await apiRes.arrayBuffer();
+
+    // Return the PDF with appropriate headers
+    return new NextResponse(Buffer.from(pdfBuffer), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `inline; filename=output.pdf`,
+      },
+    });
+  } catch {
+    return NextResponse.json({ error: "Unable to fetch from server" }, { status: 500 });
   }
-
-  // Get the PDF as a buffer
-  const pdfBuffer = await apiRes.arrayBuffer();
-
-  // Return the PDF with appropriate headers
-  return new NextResponse(Buffer.from(pdfBuffer), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename=output.pdf`,
-    },
-  });
 }

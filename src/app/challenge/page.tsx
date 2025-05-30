@@ -2,22 +2,27 @@
 export default function Challenge() {
   const organizers = [
     { name: 'Zhu-Tian Chen', affiliation: 'University of Minnesota' },
-    { name: 'Qianwen Wang', affiliation: 'University of Minnesota' },
-    { name: 'Pan Hao', affiliation: 'University of Minnesota' },
-    { name: 'Divyanshu Tiwari', affiliation: 'University of Minnesota' },
-    { name: 'James Yang', affiliation: 'University of Minnesota' },
     { name: 'Shivam Raval', affiliation: 'Harvard University' },
     { name: 'Enrico Bertini', affiliation: 'Northeastern University' },
     { name: 'Trevor DePodesta', affiliation: 'Harvard University' },
     { name: 'Niklas Elmqvist', affiliation: 'Aarhus University' },
     { name: 'Nam Wook Kim', affiliation: 'Boston College' },
-    { name: 'Yun Wang', affiliation: 'Microsoft Research' },
-    { name: 'Emily Reif', affiliation: 'Google Research & University of Washington' },
     { name: 'Pranav Rajan', affiliation: 'KTH Royal Institute of Technology' },
     { name: 'Renata G. Raidou', affiliation: 'TU Wien' },
+    { name: 'Emily Reif', affiliation: 'Google Research & University of Washington' },
     { name: 'Olivia Seow', affiliation: 'Harvard University' },
+    { name: 'Qianwen Wang', affiliation: 'University of Minnesota' },
+    { name: 'Yun Wang', affiliation: 'Microsoft Research' },
     { name: 'Catherine Yeh', affiliation: 'Harvard University' },
   ];
+
+  const developers = [
+    { name: 'Pan Hao', affiliation: 'University of Minnesota' },
+    { name: 'Divyanshu Tiwari', affiliation: 'University of Minnesota' },
+    { name: 'Chia-Lun(James) Yang', affiliation: 'University of Minnesota' },
+    { name: 'Zhu-Tian Chen', affiliation: 'University of Minnesota' },
+    { name: 'Qianwen Wang', affiliation: 'University of Minnesota' }
+  ]
 
   return (
     <div className="p-12 flex flex-col gap-2">
@@ -26,7 +31,7 @@ export default function Challenge() {
           {/* put stuff here to keep the stylistic consistency */}
           <h1 className="text-3xl font-bold">Mini Challenge</h1>
 
-          <div className="p-4">
+          <div className="py-4">
             {" "}
             The mini challenge encourages the exploration of how agentic AI can
             automate data visualization and visual analytics.
@@ -92,7 +97,7 @@ export default function Challenge() {
 
             <div className="mt-10">
               <a href="/guides" className="bg-green-100 p-2 rounded-md text-xl border border-green-200 font-semibold hover:bg-green-200">
-                Guides: How to submit with the template?
+                Guides: How to participate in the challenge?
               </a>
             </div>
 
@@ -200,9 +205,18 @@ export default function Challenge() {
                 </div>
               ))}
             </p>
+            <h1 className="text-xl font-bold mb-2 mt-4">Challenge Development Team</h1>
+            <p>
+              {developers.map((developer, index) => (
+                <div key={index} className="flex flex-col space-y-1.5 sm:flex-row sm:space-x-4">
+                  <span className="font-semibold">{developer.name}</span>  
+                  <span className="text-muted-foreground">{developer.affiliation}</span>
+                </div>
+              ))}
+            </p>
           </div>
           {/* Awards section */}
-          <div className="p-4">
+          <div className="py-4">
             <h1 className="text-2xl font-bold mb-2">Awards</h1>
             <p>Coming soon!</p>
           </div>

@@ -13,6 +13,8 @@ export default function SubmissionGuide() {
               <pre className="bg-gray-100 p-3 rounded m-3">
                 <code className="text-xs">git clone https://github.com/demoPlz/mini-template.git</code>
               </pre>
+              You are developing & testing in <code className="bg-blue-100 p-1 rounded">studio/</code> folder. The <code className="bg-blue-100 p-1 rounded">submission/</code> folder is the minimal structure you’ll package, compress in ZIP file, and submit. 
+              Please refer to <a className="text-blue-500" href="https://github.com/demoPlz/mini-template/blob/main/README.md">README.md</a>.
                 <img
                   src="./screenshots/clones.png"
                   alt="Screenshot of cloning the repository"
@@ -22,6 +24,7 @@ export default function SubmissionGuide() {
   
             <div className="p-4 bg-white rounded-lg shadow">
               <h2 className="text-2xl font-semibold mb-2">Step 2: Prepare Your Submission Zip</h2>
+              Copy <code className="bg-yellow-100 p-1 rounded">agent.py</code>, <code className="bg-yellow-100 p-1 rounded">requirements.txt</code> and <code className="bg-yellow-100 p-1 rounded">all supplimentary files</code> to the <code className="bg-blue-100 p-1 rounded">submission/</code> folder.
               <p>
                 Compress your <span className="bg-blue-100 p-1 rounded">submission</span> folder into <code className="bg-blue-100 p-1 rounded">submission.zip</code>:
               </p>

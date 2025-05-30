@@ -37,15 +37,15 @@ export function ZipUploader() {
       });
 
       if (!res.ok) {
-        const { detail } = await res.json();
-        throw new Error(detail);
+        const data = await res.json();
+        throw new Error(data.error);
       }
+
       toast.success("File uploaded successfully");
       setFile(null);
-      setIsUploading(false);
     } catch (error) {
       toast.error("File upload failed", {
-        description: error instanceof Error ? error.message : "Unknown error",
+        description: error instanceof Error ? error.message : "An unexpected error occurred",
       });
     } finally {
       setIsUploading(false);
