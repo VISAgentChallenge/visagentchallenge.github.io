@@ -85,7 +85,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
               className="px-3 py-2 rounded-md text-base transition-colors text-[#333] hover:bg-[#ACD2ED] font-normal"
             >
               <LogIn className="h-5 w-5" />
-              <span>Login</span>
+              <span>Login / Signup</span>
             </Button>
           )}
         </div>
