@@ -5,7 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import PDFThumbnail from "./PDFThumbnail";
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { CircleAlert, ClipboardIcon } from "lucide-react";
 import PdfViewer from "./PDFViewer";
 import { formatDateTime } from "@/lib/utils";
@@ -99,7 +105,9 @@ export default function LeaderboardGallery() {
             <Sheet
               key={submission.id}
               open={openId === submission.id}
-              onOpenChange={(open) => setOpenId(open ? submission.id : undefined)}
+              onOpenChange={(open) =>
+                setOpenId(open ? submission.id : undefined)
+              }
             >
               <Card className="flex flex-col rounded-md shadow-sm py-2 pb-6 gap-1 hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100 hover:shadow-gray-200">
                 <div className="w-full flex justify-end pr-3">
@@ -122,7 +130,7 @@ export default function LeaderboardGallery() {
                   <CardContent className="px-3 w-full">
                     <PDFThumbnail
                       pdfUrl={`/api/output/${submission.id}`}
-                      className="mb-3 w-fit border border-gray-100 rounded-xs overflow-clip"
+                      className="mb-3 w-full border border-gray-100 rounded-xs overflow-clip flex justify-center items-center"
                       onItemClick={() => setOpenId(submission.id)}
                     />
                     <div className="font-semibold text-lg">
