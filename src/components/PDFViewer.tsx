@@ -117,7 +117,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
   return (
     <div
       ref={containerRef}
-      className="flex justify-center items-center w-full h-full border border-gray-200 shadow-sm bg-gray-100"
+      className="flex justify-center items-center w-full h-full border-none border-gray-200 shadow-sm bg-gray-100"
     >
       <Document
         file={pdfUrl}

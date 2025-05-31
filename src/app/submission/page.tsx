@@ -244,13 +244,13 @@ export default function Submission() {
           <Sheet open={showSubmissionSheet} onOpenChange={setShowSubmissionSheet}>
             <SheetContent
               side="right"
-              className="h-full min-w-[50vw] max-w-3xl flex flex-col"
+              className="h-full min-w-[50vw] max-w-3xl flex flex-col border-none"
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
               <SheetHeader>
-                <SheetTitle>Viewer</SheetTitle>
+                <SheetTitle>Submission Viewer</SheetTitle>
               </SheetHeader>
-              <div className="flex-1 min-h-0">
+              <div className="flex-1 min-h-0 border-t border-gray-200">
                 {viewerUrl && viewerUrl.endsWith(".pdf") && <PDFViewer pdfUrl={viewerUrl} />}
                 {viewerUrl && viewerUrl.endsWith(".html") && <HTMLViewer htmlUrl={viewerUrl} />}
               </div>
