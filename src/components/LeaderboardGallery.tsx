@@ -26,7 +26,7 @@ export default function LeaderboardGallery() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [openId, setOpenId] = useState<string>();
-  const hostedURL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
+  const hostedURL = process.env.NEXT_PUBLIC_URL || "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -62,7 +62,7 @@ export default function LeaderboardGallery() {
 
   const handleCopyUrl = (submissionId: string) => {
     navigator.clipboard
-      .writeText(`${hostedURL}/api/pdf/${submissionId}`)
+      .writeText(`${hostedURL}/api/output/${submissionId}`)
       .then(() => {
         toast.success("URL copied to clipboard");
       })
