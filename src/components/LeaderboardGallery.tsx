@@ -26,7 +26,10 @@ export default function LeaderboardGallery() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [openId, setOpenId] = useState<string>();
-  const hostedURL = process.env.NEXT_PUBLIC_URL || "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
+  // Uncomment the following line if you need to use a hosted URL
+  // const hostedURL =
+  //   process.env.NEXT_PUBLIC_URL ||
+  //   "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -60,16 +63,17 @@ export default function LeaderboardGallery() {
     return fullName.includes(search.toLowerCase());
   });
 
-  const handleCopyUrl = (submissionId: string) => {
-    navigator.clipboard
-      .writeText(`${hostedURL}/api/output/${submissionId}`)
-      .then(() => {
-        toast.success("URL copied to clipboard");
-      })
-      .catch(() => {
-        toast.error("Failed to copy URL");
-      });
-  };
+  // comment out in case we need this in the future
+  // const handleCopyUrl = (submissionId: string) => {
+  //   navigator.clipboard
+  //     .writeText(`${hostedURL}/api/output/${submissionId}`)
+  //     .then(() => {
+  //       toast.success("URL copied to clipboard");
+  //     })
+  //     .catch(() => {
+  //       toast.error("Failed to copy URL");
+  //     });
+  // };
 
   return (
     <div className="my-3">
@@ -109,8 +113,9 @@ export default function LeaderboardGallery() {
                 setOpenId(open ? submission.id : undefined)
               }
             >
-              <Card className="flex flex-col rounded-md shadow-sm py-2 pb-6 gap-1 hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100 hover:shadow-gray-200">
-                <div className="w-full flex justify-end pr-3">
+              <Card className="flex flex-col rounded-md shadow-sm py-4 pb-6 gap-1 hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100 hover:shadow-gray-200">
+                {/* comment out in case we need this in the future */}
+                {/* <div className="w-full flex justify-end pr-3">
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -125,7 +130,7 @@ export default function LeaderboardGallery() {
                       <p>Copy the URL</p>
                     </TooltipContent>
                   </Tooltip>
-                </div>
+                </div> */}
                 <SheetTrigger asChild className="w-full">
                   <CardContent className="px-3 w-full">
                     <PDFThumbnail
