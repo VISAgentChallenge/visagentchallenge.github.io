@@ -12,13 +12,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { CircleAlert, ClipboardIcon } from "lucide-react";
+import { CircleAlert } from "lucide-react";
 import PdfViewer from "./PDFViewer";
 import { formatDateTime } from "@/lib/utils";
 import { Submission } from "@/lib/types";
-import { Button } from "./ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
-import { toast } from "sonner";
 
 export default function LeaderboardGallery() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
