@@ -5,19 +5,28 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import PDFThumbnail from "./PDFThumbnail";
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { CircleAlert } from "lucide-react";
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { CircleAlert, ClipboardIcon } from "lucide-react";
 import PdfViewer from "./PDFViewer";
 import { formatDateTime } from "@/lib/utils";
 import { Submission } from "@/lib/types";
+import { Button } from "./ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { toast } from "sonner";
 
 export default function LeaderboardGallery() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-
   const [openId, setOpenId] = useState<string>();
+  const hostedURL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -51,6 +60,17 @@ export default function LeaderboardGallery() {
     return fullName.includes(search.toLowerCase());
   });
 
+  const handleCopyUrl = (submissionId: string) => {
+    navigator.clipboard
+      .writeText(`${hostedURL}/api/pdf/${submissionId}`)
+      .then(() => {
+        toast.success("URL copied to clipboard");
+      })
+      .catch(() => {
+        toast.error("Failed to copy URL");
+      });
+  };
+
   return (
     <div className="my-3">
       <div className="flex justify-left mb-6">
@@ -80,19 +100,37 @@ export default function LeaderboardGallery() {
           <span className="text-md">No submissions found</span>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredSubmissions.map((submission) => (
             <Sheet
               key={submission.id}
               open={openId === submission.id}
-              onOpenChange={(open) => setOpenId(open ? submission.id : undefined)}
+              onOpenChange={(open) =>
+                setOpenId(open ? submission.id : undefined)
+              }
             >
-              <SheetTrigger asChild>
-                <Card className="w-fit rounded-md shadow-sm hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100 hover:shadow-gray-200 justify-self-center">
-                  <CardContent className="p-4">
+              <Card className="flex flex-col rounded-md shadow-sm py-2 pb-6 gap-1 hover:shadow-lg transition cursor-pointer border-gray-200 shadow-gray-100 hover:shadow-gray-200">
+                <div className="w-full flex justify-end pr-3">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="flex h-6 w-6 rounded-xs"
+                        onClick={() => handleCopyUrl(submission.id)}
+                      >
+                        <ClipboardIcon className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Copy the URL</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+                <SheetTrigger asChild className="w-full">
+                  <CardContent className="px-3 w-full">
                     <PDFThumbnail
                       pdfUrl={`/api/pdf/${submission.id}`}
-                      className="mb-3 w-fit border border-gray-100 rounded-xs overflow-clip"
+                      className="mb-3 w-full border border-gray-100 rounded-xs overflow-clip"
                       onItemClick={() => setOpenId(submission.id)}
                     />
                     <div className="font-semibold text-lg">
@@ -104,8 +142,8 @@ export default function LeaderboardGallery() {
                       {formatDateTime(submission.updated_at)}
                     </div>
                   </CardContent>
-                </Card>
-              </SheetTrigger>
+                </SheetTrigger>
+              </Card>
               <SheetContent
                 side="right"
                 className="h-full min-w-1/2"
