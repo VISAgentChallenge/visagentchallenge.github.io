@@ -8,7 +8,8 @@ export type Submission = {
   updated_at: string;
   score: number;
   isFinal: boolean;
-  metrics: { total_time: number };
+  output: string;
+  metrics: { total_time: number; file_type: string };
 };
 
 export type SubmissionList = {

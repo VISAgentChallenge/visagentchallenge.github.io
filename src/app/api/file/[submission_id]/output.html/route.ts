@@ -14,7 +14,7 @@ export async function GET(
   const { submission_id } = await params;
 
   // Construct the backend URL for the PDF file
-  const backendUrl = `${process.env.API_ENDPOINT}/file/${submission_id}/output.pdf`;
+  const backendUrl = `${process.env.API_ENDPOINT}/file/${submission_id}/output.html`;
 
   try {
     // Fetch the PDF from the backend
@@ -39,8 +39,8 @@ export async function GET(
     return new NextResponse(Buffer.from(pdfBuffer), {
       status: 200,
       headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `inline; filename=output.pdf`,
+        "Content-Type": "text/html",
+        "Content-Disposition": `inline; filename=output.html`,
       },
     });
   } catch {

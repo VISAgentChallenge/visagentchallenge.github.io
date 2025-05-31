@@ -10,7 +10,7 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { AlertCircle, Check, FileText, Loader2 } from "lucide-react";
+import { AlertCircle, Check, FileSymlink, FileText, Loader2 } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import PDFViewer from "@/components/PDFViewer";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import type { Submission, SubmissionList } from "@/lib/types";
 import { toast } from "sonner";
+import HTMLViewer from "@/components/HTMLViewer";
 
 export default function Submission() {
   const [finalSubmissionId, setFinalSubmissionId] = useState<string>();
@@ -27,10 +28,10 @@ export default function Submission() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [showPdfSheet, setShowPdfSheet] = useState(false);
+  const [showSubmissionSheet, setShowSubmissionSheet] = useState(false);
   const [showErrorSheet, setShowErrorSheet] = useState(false);
 
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [viewerUrl, setViewerUrl] = useState<string | null>(null);
   const [errorLog, setErrorLog] = useState<string | null>(null);
 
   useEffect(() => {
@@ -59,8 +60,13 @@ export default function Submission() {
   }, []);
 
   const handleOpenPDF = (submissionId: string) => {
-    setPdfUrl(`/api/file/${submissionId}/output.pdf`);
-    setShowPdfSheet(true);
+    setViewerUrl(`/api/file/${submissionId}/output.pdf`);
+    setShowSubmissionSheet(true);
+  };
+
+  const handleOpenHTML = (submissionId: string) => {
+    setViewerUrl(`/api/file/${submissionId}/output.html`);
+    setShowSubmissionSheet(true);
   };
 
   const handleOpenErrorLog = async (submissionId: string) => {
@@ -190,19 +196,30 @@ export default function Submission() {
                           </TableCell>
                           <TableCell className="text-center">
                             {submission.status === "SUCCESS" ? (
-                              <Button
-                                variant="link"
-                                className="cursor-pointer"
-                                onClick={() => handleOpenPDF(submission.id.toString())}
-                              >
-                                <FileText />
-                                PDF
-                              </Button>
+                              submission.output === "pdf" ? (
+                                <Button
+                                  variant="link"
+                                  className="cursor-pointer"
+                                  onClick={() => handleOpenPDF(submission.id)}
+                                >
+                                  <FileText />
+                                  PDF
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="link"
+                                  className="cursor-pointer"
+                                  onClick={() => handleOpenHTML(submission.id)}
+                                >
+                                  <FileSymlink />
+                                  HTML
+                                </Button>
+                              )
                             ) : submission.status === "FAILED" ? (
                               <Button
                                 variant="link"
                                 className="cursor-pointer text-red-600"
-                                onClick={() => handleOpenErrorLog(submission.id.toString())}
+                                onClick={() => handleOpenErrorLog(submission.id)}
                               >
                                 <AlertCircle />
                                 Logs
@@ -224,16 +241,19 @@ export default function Submission() {
           </div>
 
           {/* PDF Viewer Sheet */}
-          <Sheet open={showPdfSheet} onOpenChange={setShowPdfSheet}>
+          <Sheet open={showSubmissionSheet} onOpenChange={setShowSubmissionSheet}>
             <SheetContent
               side="right"
               className="h-full min-w-[50vw] max-w-3xl flex flex-col"
               onOpenAutoFocus={(e) => e.preventDefault()}
             >
               <SheetHeader>
-                <SheetTitle>PDF Viewer</SheetTitle>
+                <SheetTitle>Viewer</SheetTitle>
               </SheetHeader>
-              <div className="flex-1 min-h-0">{pdfUrl && <PDFViewer pdfUrl={pdfUrl} />}</div>
+              <div className="flex-1 min-h-0">
+                {viewerUrl && viewerUrl.endsWith(".pdf") && <PDFViewer pdfUrl={viewerUrl} />}
+                {viewerUrl && viewerUrl.endsWith(".html") && <HTMLViewer htmlUrl={viewerUrl} />}
+              </div>
             </SheetContent>
           </Sheet>
 
