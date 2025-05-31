@@ -13,8 +13,8 @@ const nextConfig: NextConfig = {
         destination: `${process.env.API_ENDPOINT}/leaderboard`,
       },
       {
-        source: "/api/pdf/:submission_id",
-        destination: `${process.env.API_ENDPOINT}/pdf/:submission_id`,
+        source: "/api/output/:submission_id",
+        destination: `${process.env.API_ENDPOINT}/output/:submission_id`,
       },
     ];
   },

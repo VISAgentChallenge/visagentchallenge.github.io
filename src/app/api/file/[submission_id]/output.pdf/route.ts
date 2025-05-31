@@ -13,15 +13,16 @@ export async function GET(
 
   const { submission_id } = await params;
 
-  // Construct the backend URL for the error log file
-  const backendUrl = `${process.env.API_ENDPOINT}/output/${submission_id}/error.log`;
+  // Construct the backend URL for the PDF file
+  const backendUrl = `${process.env.API_ENDPOINT}/file/${submission_id}/output.pdf`;
 
   try {
-    // Fetch the error log from the backend
+    // Fetch the PDF from the backend
     const apiRes = await fetch(backendUrl, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${session.accessToken}`,
+        "Content-Type": "application/pdf",
       },
     });
 
@@ -32,15 +33,15 @@ export async function GET(
       return NextResponse.json({ error: errMessage }, { status: apiRes.status });
     }
 
-    // Get the error log as text
-    const logText = await apiRes.text();
+    // Get the PDF as a buffer
+    const pdfBuffer = await apiRes.arrayBuffer();
 
-    // Return the error log as plain text
-    return new NextResponse(logText, {
+    // Return the PDF with appropriate headers
+    return new NextResponse(Buffer.from(pdfBuffer), {
       status: 200,
       headers: {
-        "Content-Type": "text/plain",
-        "Content-Disposition": `inline; filename=error.log`,
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `inline; filename=output.pdf`,
       },
     });
   } catch {

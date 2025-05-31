@@ -59,7 +59,7 @@ export default function Submission() {
   }, []);
 
   const handleOpenPDF = (submissionId: string) => {
-    setPdfUrl(`/api/output/${submissionId}/output.pdf`);
+    setPdfUrl(`/api/file/${submissionId}/output.pdf`);
     setShowPdfSheet(true);
   };
 
@@ -68,7 +68,7 @@ export default function Submission() {
     setShowErrorSheet(true);
 
     try {
-      const res = await fetch(`/api/output/${submissionId}/error.log`);
+      const res = await fetch(`/api/file/${submissionId}/error.log`);
 
       if (!res.ok) {
         const data = await res.json();
