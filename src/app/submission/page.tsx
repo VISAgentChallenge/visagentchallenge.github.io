@@ -10,15 +10,34 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { AlertCircle, Check, FileSymlink, FileText, Loader2 } from "lucide-react";
+import {
+  AlertCircle,
+  Check,
+  FileSymlink,
+  FileText,
+  Loader2,
+  ClipboardIcon,
+  Trash2,
+  Download,
+} from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import PDFViewer from "@/components/PDFViewer";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import type { Submission, SubmissionList } from "@/lib/types";
 import { toast } from "sonner";
 import HTMLViewer from "@/components/HTMLViewer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Submission() {
   const [finalSubmissionId, setFinalSubmissionId] = useState<string>();
@@ -33,6 +52,10 @@ export default function Submission() {
 
   const [viewerUrl, setViewerUrl] = useState<string | null>(null);
   const [errorLog, setErrorLog] = useState<string | null>(null);
+
+  const hostedURL =
+    process.env.NEXT_PUBLIC_URL ||
+    "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -49,7 +72,9 @@ export default function Submission() {
 
         const data = (await res.json()) as SubmissionList;
         setSubmissions(data.submissions || []);
-        setFinalSubmissionId(data.submissions.find((s: Submission) => s.isFinal)?.id);
+        setFinalSubmissionId(
+          data.submissions.find((s: Submission) => s.isFinal)?.id
+        );
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
@@ -84,7 +109,9 @@ export default function Submission() {
       const log = await res.text();
       setErrorLog(log);
     } catch (err) {
-      setErrorLog(err instanceof Error ? err.message : "An unexpected error occurred");
+      setErrorLog(
+        err instanceof Error ? err.message : "An unexpected error occurred"
+      );
     }
   };
 
@@ -107,9 +134,21 @@ export default function Submission() {
     } catch (err) {
       setIsMarkingAsFinal(false);
       toast.error("Failed to mark as final", {
-        description: err instanceof Error ? err.message : "An unexpected error occurred",
+        description:
+          err instanceof Error ? err.message : "An unexpected error occurred",
       });
     }
+  };
+
+  const handleCopyUrl = (submissionId: string) => {
+    navigator.clipboard
+      .writeText(`${hostedURL}/api/file/${submissionId}/output.pdf`)
+      .then(() => {
+        toast.success("URL copied to clipboard");
+      })
+      .catch(() => {
+        toast.error("Failed to copy URL");
+      });
   };
 
   return (
@@ -120,8 +159,8 @@ export default function Submission() {
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Your submissions</h2>
             <span className="text-muted-foreground">
-              The below leaderboard shows your submissions. Click on the submission ID to view the
-              PDF.
+              The below leaderboard shows your submissions. Click on the
+              submission ID to view the PDF.
             </span>
             {loading ? (
               <div className="flex justify-center items-center gap-2 w-full h-50 text-gray-500 bg-gray-100 rounded-md p-4 text-sm">
@@ -138,19 +177,32 @@ export default function Submission() {
                 <Table className="border-collapse">
                   <TableHeader>
                     <TableRow className="bg-gray-100">
-                      <TableHead className="px-4 bg-gray-100">Submitted on</TableHead>
-                      <TableHead className="text-center bg-gray-100">Status</TableHead>
-                      <TableHead className="text-center bg-gray-100">Time (s)</TableHead>
-                      <TableHead className="text-center bg-gray-100">View</TableHead>
+                      <TableHead className="px-4 bg-gray-100">
+                        Submitted on
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-100">
+                        Status
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-100">
+                        Time (s)
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-100">
+                        View
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-100"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {submissions.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={4} className="text-center py-8 text-gray-400">
+                        <TableCell
+                          colSpan={4}
+                          className="text-center py-8 text-gray-400"
+                        >
                           <span className="flex flex-col justify-center items-center gap-2">
                             <AlertCircle />
-                            No submissions present. Upload a zip file to get started.
+                            No submissions present. Upload a zip file to get
+                            started.
                           </span>
                         </TableCell>
                       </TableRow>
@@ -219,17 +271,65 @@ export default function Submission() {
                               <Button
                                 variant="link"
                                 className="cursor-pointer text-red-600"
-                                onClick={() => handleOpenErrorLog(submission.id)}
+                                onClick={() =>
+                                  handleOpenErrorLog(submission.id)
+                                }
                               >
                                 <AlertCircle />
                                 Logs
                               </Button>
                             ) : (
-                              <Button variant="link" className="cursor-not-allowed" disabled>
+                              <Button
+                                variant="link"
+                                className="cursor-not-allowed"
+                                disabled
+                              >
                                 <FileText />
                                 Unavailable
                               </Button>
                             )}
+                          </TableCell>
+                          <TableCell className="flex flex-row items-center justify-center">
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="link"
+                                  className="hover:bg-gray-300"
+                                  onClick={() => handleCopyUrl(submission.id)}
+                                >
+                                  <ClipboardIcon className="size-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Copy the URL</p>
+                              </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="link"
+                                  className="cursor-pointer hover:bg-gray-300"
+                                >
+                                  <Download className="size-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Download the zip file</p>
+                              </TooltipContent>
+                            </Tooltip>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  variant="link"
+                                  className="cursor-pointer hover:bg-gray-300"
+                                >
+                                  <Trash2 className="size-4" />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Delete this submission</p>
+                              </TooltipContent>
+                            </Tooltip>
                           </TableCell>
                         </TableRow>
                       ))
@@ -241,7 +341,10 @@ export default function Submission() {
           </div>
 
           {/* PDF Viewer Sheet */}
-          <Sheet open={showSubmissionSheet} onOpenChange={setShowSubmissionSheet}>
+          <Sheet
+            open={showSubmissionSheet}
+            onOpenChange={setShowSubmissionSheet}
+          >
             <SheetContent
               side="right"
               className="h-full min-w-[50vw] max-w-3xl flex flex-col border-none"
@@ -251,8 +354,12 @@ export default function Submission() {
                 <SheetTitle>Submission Viewer</SheetTitle>
               </SheetHeader>
               <div className="flex-1 min-h-0 border-t border-gray-200">
-                {viewerUrl && viewerUrl.endsWith(".pdf") && <PDFViewer pdfUrl={viewerUrl} />}
-                {viewerUrl && viewerUrl.endsWith(".html") && <HTMLViewer htmlUrl={viewerUrl} />}
+                {viewerUrl && viewerUrl.endsWith(".pdf") && (
+                  <PDFViewer pdfUrl={viewerUrl} />
+                )}
+                {viewerUrl && viewerUrl.endsWith(".html") && (
+                  <HTMLViewer htmlUrl={viewerUrl} />
+                )}
               </div>
             </SheetContent>
           </Sheet>
@@ -284,8 +391,9 @@ export default function Submission() {
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Submit Here</h2>
             <span className="text-muted-foreground">
-              You can submit a new task here. The submission will be automatically graded and the
-              results will be shown in the leaderboard above.
+              You can submit a new task here. The submission will be
+              automatically graded and the results will be shown in the
+              leaderboard above.
             </span>
             <ZipUploader />
           </div>
