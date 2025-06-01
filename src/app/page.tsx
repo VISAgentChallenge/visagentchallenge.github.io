@@ -9,7 +9,7 @@ export default async function LandingPage() {
         <div className="flex flex-col max-w-5xl mx-auto gap-10">
           {/* workshop intro: workshop poster, headline, short intro */}
           <div className="relative z-10 flex justify-center h-full p-1">
-            <h1 className="text-4xl font-bold text-black">AI Agents and the Future of VIS</h1>
+            <h1 className="text-4xl font-bold text-black">GenAI, Agents, and the Future of VIS</h1>
           </div>
           <div className="relative w-full h-[400px] rounded-md overflow-hidden">
             <Image

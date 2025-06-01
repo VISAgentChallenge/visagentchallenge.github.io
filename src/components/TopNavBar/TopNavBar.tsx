@@ -30,7 +30,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
           onClick={() => redirect("/")}
           className="text-[#333] text-xl font-bold cursor-pointer hover:text-[#7a0019] md:text-2xl"
         >
-          VIS x GenAI Challenge
+          Agentic VIS Challenge
         </a>
 
         {/* Nav buttons */}
@@ -76,7 +76,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
               className="px-3 py-2 rounded-md text-base transition-colors text-[#333] hover:bg-[#ACD2ED] font-normal"
             >
               <LogOut className="h-5 w-5" />
-              <span>Logout</span>
+              <span>Log Out</span>
             </Button>
           ) : (
             <Button
@@ -85,7 +85,7 @@ export default function TopNavBar({ session }: { session: Session | null }) {
               className="px-3 py-2 rounded-md text-base transition-colors text-[#333] hover:bg-[#ACD2ED] font-normal"
             >
               <LogIn className="h-5 w-5" />
-              <span>Login / Signup</span>
+              <span>Log In / Sign Up</span>
             </Button>
           )}
         </div>

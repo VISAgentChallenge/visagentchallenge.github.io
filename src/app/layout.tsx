@@ -33,8 +33,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "VISxGenAI Challenge",
-  description: "The website for VISxGenAI Workshop Challenge",
+  title: "Agentic VIS Challenge",
+  description: "The website for VISxGenAI Workshop's Agentic VIS Challenge",
   icons: {
     icon: "/fav.svg",
   },
