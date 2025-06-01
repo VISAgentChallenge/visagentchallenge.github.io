@@ -24,9 +24,9 @@ export default function SubmissionGuide() {
   
             <div className="p-4 bg-white rounded-lg shadow">
               <h2 className="text-2xl font-semibold mb-2">Step 2: Prepare Your Submission Zip</h2>
-              Copy <code className="bg-yellow-100 p-1 rounded">agent.py</code>, <code className="bg-yellow-100 p-1 rounded">requirements.txt</code> and <code className="bg-yellow-100 p-1 rounded">all supplimentary files</code> to the <code className="bg-blue-100 p-1 rounded">submission/</code> folder.
-              <p>
-                Compress your <span className="bg-blue-100 p-1 rounded">submission</span> folder into <code className="bg-blue-100 p-1 rounded">submission.zip</code>:
+              <p className="m-3">
+                Copy <code className="bg-yellow-100 rounded">agent.py</code>, <code className="bg-yellow-100 rounded">requirements.txt</code> and <code className="bg-yellow-100 rounded">all supplimentary files</code> to the <code className="bg-blue-100 rounded">submission/</code> folder.
+                Compress your <code className="bg-blue-100 rounded">submission</code> folder into <code className="bg-blue-100 rounded">submission.zip</code>:
               </p>
               <div className="mt-4">
                 <img
@@ -56,7 +56,7 @@ export default function SubmissionGuide() {
             <div className="p-4 bg-white rounded-lg shadow">
               <h2 className="text-2xl font-semibold mb-2">Step 4: Upload Your Submission</h2>
               <p>
-                Navigate to your submission page, upload your <code>submission.zip</code>.
+                Navigate to your submission page, upload your <code className="bg-blue-100 rounded">submission.zip</code>.
               </p>
               <div className="mt-4">
                 <img
@@ -84,6 +84,13 @@ export default function SubmissionGuide() {
                   alt="Screenshot of success"
                 />
               </div> 
+
+              <div className="mt-4">
+                <img
+                  src="./screenshots/finalize.png"
+                  alt="Screenshot of finalizing submission"
+                />
+              </div>
 
             </div>
           </div>
