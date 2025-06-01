@@ -85,19 +85,20 @@ export default function Challenge() {
               className="bg-blue-100 p-1 rounded-md text-500 hover:bg-blue-200"
             >
               Mini Challenge Template
-            </a>
+            </a> with README to explain the file structure and how to use it.
 
             . Please use it as to get started. You can submit your agent
-            implementation to the evaluation server once logged in. You could
+            implementation to the evaluation server once logged in. You can submit multiple times. 
+            {/* You could
             submit multiple times, up to{" "}
             <span className="bg-gray-100 p-1 rounded-md">5 times per day</span>,
             a maximum of{" "}
             <span className="bg-gray-100 p-1 rounded-md">100 times</span>{" "}
-            throughout the challenge.
+            throughout the challenge. */}
 
             <div className="mt-10">
               <a href="/guides" className="bg-green-100 p-2 rounded-md text-xl border border-green-200 font-semibold hover:bg-green-200">
-                Guides: How to participate in the challenge?
+                Guide: How to Start with Template & Submit for Challenge?
               </a>
             </div>
 

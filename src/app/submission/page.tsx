@@ -20,7 +20,6 @@ import {
   Trash2,
   Download,
 } from "lucide-react";
-import { formatDateTime } from "@/lib/utils";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import PDFViewer from "@/components/PDFViewer";
@@ -158,9 +157,13 @@ export default function Submission() {
           {/* individual leaderboard */}
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Your submissions</h2>
-            <span className="text-muted-foreground">
+            <span>
               The below leaderboard shows your submissions. Click on the
-              submission ID to view the PDF.
+              submission ID to view the PDF/HTML output. Please select one
+              submission in&nbsp;
+              <span className="bg-green-100 p-1 rounded">SUCCESS</span>
+              &nbsp;status as the final submission to display on the public
+              leaderboard, and you can update it anytime. Please <u>refresh the page</u> if there's a delay in the leaderboard updating.
             </span>
             {loading ? (
               <div className="flex justify-center items-center gap-2 w-full h-50 text-gray-500 bg-gray-100 rounded-md p-4 text-sm">
@@ -210,8 +213,8 @@ export default function Submission() {
                       submissions.map((submission) => (
                         <TableRow key={submission.id} className="group">
                           <TableCell className="pl-4">
-                            <div className="flex gap-2 w-[100px]">
-                              {formatDateTime(submission.created_at)}
+                            <div className="flex gap-2 w-[180px]">
+                              {new Date(submission.created_at).toLocaleString("en-US")}
                               {finalSubmissionId !== submission.id && (
                                 <span
                                   onClick={(e) => {
@@ -289,7 +292,7 @@ export default function Submission() {
                               </Button>
                             )}
                           </TableCell>
-                          <TableCell className="flex flex-row items-center justify-center">
+                          <TableCell className="flex flex-row items-center justify-center gap-1">
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <Button
@@ -390,7 +393,7 @@ export default function Submission() {
           {/* submit portal */}
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Submit Here</h2>
-            <span className="text-muted-foreground">
+            <span>
               You can submit a new task here. The submission will be
               automatically graded and the results will be shown in the
               leaderboard above.

@@ -77,7 +77,7 @@ export default async function LandingPage() {
               <li>
 
                 <a href="/challenge" className="bg-blue-100 p-2 m-2 rounded-md text-xl">
-                  {`🏅 Get started with the challenge`}
+                  {`🏅 More info & Get started with the challenge`}
 
                 </a>
               </li>
