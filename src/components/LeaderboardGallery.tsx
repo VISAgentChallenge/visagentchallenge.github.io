@@ -16,7 +16,7 @@ import { CircleAlert } from "lucide-react";
 import PdfViewer from "./PDFViewer";
 import { formatDateTime } from "@/lib/utils";
 import { Submission } from "@/lib/types";
-
+import HTMLViewer from "./HTMLViewer";
 export default function LeaderboardGallery() {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [search, setSearch] = useState("");
@@ -71,7 +71,7 @@ export default function LeaderboardGallery() {
   //       toast.error("Failed to copy URL");
   //     });
   // };
-
+  console.log(submissions)
   return (
     <div className="my-3">
       <div className="flex justify-left mb-6">
@@ -130,11 +130,32 @@ export default function LeaderboardGallery() {
                 </div> */}
                 <SheetTrigger asChild className="w-full">
                   <CardContent className="px-3 w-full">
-                    <PDFThumbnail
+                    {/* <PDFThumbnail
                       pdfUrl={`/api/output/${submission.id}`}
                       className="mb-3 w-full border border-gray-100 rounded-xs overflow-clip flex justify-center items-center"
                       onItemClick={() => setOpenId(submission.id)}
-                    />
+                    /> */}
+                    {submission.output === "pdf" ? (
+                      <PDFThumbnail
+                        pdfUrl={`/api/output/${submission.id}`}
+                        className="mb-3 w-full border h-60 border-gray-100 rounded-xs overflow-clip flex justify-center items-center"
+                        onItemClick={() => setOpenId(submission.id)}
+                      />
+                    ) : (
+                      <div className="mb-3 w-full h-60 border border-gray-100 rounded-xs"
+                      onClick={() => setOpenId(submission.id)}>
+                        <iframe
+                          src={`/api/output/${submission.id}`}
+                          className="block"
+                          style={{
+                            transform: "scale(0.5)",
+                            transformOrigin: "top left",
+                            width: "200%",
+                            height: "200%",
+                          }}
+                         />
+                       </div>
+                    )}
                     <div className="font-semibold text-lg">
                       {submission.first_name} {submission.last_name}
                     </div>
@@ -156,7 +177,11 @@ export default function LeaderboardGallery() {
                     Submission by {submission.first_name} {submission.last_name}
                   </SheetTitle>
                 </SheetHeader>
-                <PdfViewer pdfUrl={`/api/output/${submission.id}`} />
+                {submission.output === "pdf" ? (
+                  <PdfViewer pdfUrl={`/api/output/${submission.id}`} />
+                ) : (
+                  <HTMLViewer htmlUrl={`/api/output/${submission.id}`} />
+                )}
               </SheetContent>
             </Sheet>
           ))}
