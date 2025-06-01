@@ -163,7 +163,7 @@ export default function Submission() {
               submission in&nbsp;
               <span className="bg-green-100 p-1 rounded">SUCCESS</span>
               &nbsp;status as the final submission to display on the public
-              leaderboard, and you can update it anytime.
+              leaderboard, and you can update it anytime. Please <u>refresh the page</u> if there's a delay in the leaderboard updating.
             </span>
             {loading ? (
               <div className="flex justify-center items-center gap-2 w-full h-50 text-gray-500 bg-gray-100 rounded-md p-4 text-sm">
