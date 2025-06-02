@@ -113,7 +113,7 @@ export default function Submission() {
 
   useEffect(() => {
     const socket = new WebSocket(
-      `ws://52.250.67.65:8000/ws/submissions`
+      `wss://52.250.67.65:8000/ws/submissions`
     );
 
     socket.onopen = () => {
