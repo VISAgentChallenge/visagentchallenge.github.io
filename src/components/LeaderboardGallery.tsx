@@ -28,31 +28,75 @@ export default function LeaderboardGallery() {
   //   process.env.NEXT_PUBLIC_URL ||
   //   "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
 
-  useEffect(() => {
-    const fetchSubmissions = async () => {
-      try {
-        const res = await fetch("api/leaderboard", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+  // useEffect(() => {
+  //   const fetchSubmissions = async () => {
+  //     try {
+  //       const res = await fetch("api/leaderboard", {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       });
 
-        if (!res.ok) {
-          const data = await res.json();
-          setError(data.error || "An unexpected error occurred");
-        }
+  //       if (!res.ok) {
+  //         const data = await res.json();
+  //         setError(data.error || "An unexpected error occurred");
+  //       }
 
+  //       const data = await res.json();
+  //       setSubmissions(data.submissions);
+  //       setError("");
+  //     } catch {
+  //       setError("Unable to fetch from server");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchSubmissions();
+  // }, []);
+
+  const fetchSubmissions = async () => {
+    try {
+      const res = await fetch("api/leaderboard", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!res.ok) {
         const data = await res.json();
-        setSubmissions(data.submissions);
-        setError("");
-      } catch {
-        setError("Unable to fetch from server");
-      } finally {
-        setLoading(false);
+        setError(data.error || "An unexpected error occurred");
+      }
+      const data = await res.json();
+      setSubmissions(data.submissions);
+      setError("");
+    } catch {
+      setError("Unable to fetch from server");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubmissions();
+  }, []);
+
+  useEffect(() => {
+    const socket = new WebSocket(`ws://http://52.250.67.65:8000/ws/leaderboard`);
+
+    socket.onmessage = (event) => {
+      if (event.data === "update") {
+        fetchSubmissions(); // Refresh data on update signal
       }
     };
-    fetchSubmissions();
+
+    socket.onerror = (error) => {
+      console.error("❌ WebSocket error:", error);
+    };
+
+    socket.onclose = () => {
+      console.log("🔌 WebSocket closed");
+    };
+
+    return () => socket.close();
   }, []);
 
   const filteredSubmissions = submissions.filter((s) => {
@@ -71,7 +115,7 @@ export default function LeaderboardGallery() {
   //       toast.error("Failed to copy URL");
   //     });
   // };
-  console.log(submissions)
+  console.log(submissions);
   return (
     <div className="my-3">
       <div className="flex justify-left mb-6">
@@ -142,8 +186,10 @@ export default function LeaderboardGallery() {
                         onItemClick={() => setOpenId(submission.id)}
                       />
                     ) : (
-                      <div className="mb-3 w-full h-60 border border-gray-100 rounded-xs"
-                      onClick={() => setOpenId(submission.id)}>
+                      <div
+                        className="mb-3 w-full h-60 border border-gray-100 rounded-xs"
+                        onClick={() => setOpenId(submission.id)}
+                      >
                         <iframe
                           src={`/api/output/${submission.id}`}
                           className="block"
@@ -153,8 +199,8 @@ export default function LeaderboardGallery() {
                             width: "200%",
                             height: "200%",
                           }}
-                         />
-                       </div>
+                        />
+                      </div>
                     )}
                     <div className="font-semibold text-lg">
                       {submission.first_name} {submission.last_name}

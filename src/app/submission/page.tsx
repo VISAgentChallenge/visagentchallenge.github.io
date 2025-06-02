@@ -56,31 +56,88 @@ export default function Submission() {
     process.env.NEXT_PUBLIC_URL ||
     "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
 
+  // useEffect(() => {
+  //   const fetchSubmissions = async () => {
+  //     setLoading(true);
+  //     setError("");
+
+  //     try {
+  //       const res = await fetch("/api/submissions");
+
+  //       if (!res.ok) {
+  //         const data = await res.json();
+  //         throw new Error(data.error);
+  //       }
+
+  //       const data = (await res.json()) as SubmissionList;
+  //       setSubmissions(data.submissions || []);
+  //       setFinalSubmissionId(
+  //         data.submissions.find((s: Submission) => s.isFinal)?.id
+  //       );
+  //     } catch (err) {
+  //       setError(err instanceof Error ? err.message : "Unknown error");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchSubmissions();
+  // }, []);
+
+  const fetchSubmissions = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/submissions");
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error);
+      }
+
+      const data = (await res.json()) as SubmissionList;
+      setSubmissions(data.submissions || []);
+      setFinalSubmissionId(
+        data.submissions.find((s: Submission) => s.isFinal)?.id
+      );
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unknown error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchSubmissions = async () => {
-      setLoading(true);
-      setError("");
+    fetchSubmissions();
+  }, []);
 
-      try {
-        const res = await fetch("/api/submissions");
+  useEffect(() => {
+    const socket = new WebSocket(
+      `ws://52.250.67.65:8000/ws/submissions`
+    );
 
-        if (!res.ok) {
-          const data = await res.json();
-          throw new Error(data.error);
-        }
+    socket.onopen = () => {
+      console.log("✅ WebSocket connected");
+    };
 
-        const data = (await res.json()) as SubmissionList;
-        setSubmissions(data.submissions || []);
-        setFinalSubmissionId(
-          data.submissions.find((s: Submission) => s.isFinal)?.id
-        );
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error");
-      } finally {
-        setLoading(false);
+    socket.onmessage = (event) => {
+      console.log("📨 WebSocket message:", event.data);
+      if (event.data === "update") {
+        fetchSubmissions();
       }
     };
-    fetchSubmissions();
+
+    socket.onerror = (error) => {
+      console.error("❌ WebSocket error:", error);
+    };
+
+    socket.onclose = () => {
+      console.log("🔌 WebSocket closed");
+    };
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
   const handleOpenPDF = (submissionId: string) => {
@@ -163,7 +220,9 @@ export default function Submission() {
               submission in&nbsp;
               <span className="bg-green-100 p-1 rounded">SUCCESS</span>
               &nbsp;status as the final submission to display on the public
-              leaderboard, and you can update it anytime. Please <u>refresh the page</u> if there's a delay in the leaderboard updating.
+              leaderboard, and you can update it anytime. Please{" "}
+              <u>refresh the page</u> if there's a delay in the leaderboard
+              updating.
             </span>
             {loading ? (
               <div className="flex justify-center items-center gap-2 w-full h-50 text-gray-500 bg-gray-100 rounded-md p-4 text-sm">
@@ -214,7 +273,9 @@ export default function Submission() {
                         <TableRow key={submission.id} className="group">
                           <TableCell className="pl-4">
                             <div className="flex gap-2 w-[180px]">
-                              {new Date(submission.created_at).toLocaleString("en-US")}
+                              {new Date(submission.created_at).toLocaleString(
+                                "en-US"
+                              )}
                               {finalSubmissionId !== submission.id && (
                                 <span
                                   onClick={(e) => {
