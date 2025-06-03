@@ -13,7 +13,10 @@ export async function DELETE(req: NextRequest) {
   const submission_id = searchParams.get("submission_id");
 
   if (!submission_id) {
-    return NextResponse.json({ error: "Submission ID is required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Submission ID is required" },
+      { status: 400 }
+    );
   }
 
   // Construct the backend URL
@@ -33,8 +36,14 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: errMessage }, { status: res.status });
     }
 
-    return NextResponse.json({ message: "Submission deleted successfully" }, { status: 200 });
-  } catch (err) {
-    return NextResponse.json({ error: "Unable to delete submission" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Submission deleted successfully" },
+      { status: 200 }
+    );
+  } catch {
+    return NextResponse.json(
+      { error: "Unable to delete submission" },
+      { status: 500 }
+    );
   }
 }
