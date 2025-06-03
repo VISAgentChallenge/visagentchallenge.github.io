@@ -80,7 +80,12 @@ export default function LeaderboardGallery() {
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket(`wss://http://52.250.67.65:8000/ws/leaderboard`);
+    // use ws for local development
+    // const socket = new WebSocket(`ws://localhost:8000/ws/submissions`);
+    //use wss for production
+    const socket = new WebSocket(
+      `wss://http://52.250.67.65:8000/ws/leaderboard`
+    );
 
     socket.onmessage = (event) => {
       if (event.data === "update") {

@@ -17,7 +17,6 @@ import {
   FileText,
   Loader2,
   Ellipsis,
-  DivideIcon,
 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -111,7 +110,10 @@ export default function Submission() {
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8000/ws/submissions`);
+    // use ws for local development
+    // const socket = new WebSocket(`ws://localhost:8000/ws/submissions`);
+    //use wss for production
+    const socket = new WebSocket(`wss://52.250.67.65:8000/ws/submissions`);
 
     socket.onopen = () => {
       console.log("✅ WebSocket connected");
