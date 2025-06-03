@@ -16,9 +16,8 @@ import {
   FileSymlink,
   FileText,
   Loader2,
-  ClipboardIcon,
-  Trash2,
-  Download,
+  Ellipsis,
+  DivideIcon,
 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -33,11 +32,11 @@ import type { Submission, SubmissionList } from "@/lib/types";
 import { toast } from "sonner";
 import HTMLViewer from "@/components/HTMLViewer";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 export default function Submission() {
   const [finalSubmissionId, setFinalSubmissionId] = useState<string>();
   const [isMarkingAsFinal, setIsMarkingAsFinal] = useState(false);
@@ -112,9 +111,7 @@ export default function Submission() {
   }, []);
 
   useEffect(() => {
-    const socket = new WebSocket(
-      `wss://52.250.67.65:8000/ws/submissions`
-    );
+    const socket = new WebSocket(`ws://localhost:8000/ws/submissions`);
 
     socket.onopen = () => {
       console.log("✅ WebSocket connected");
@@ -205,6 +202,30 @@ export default function Submission() {
       .catch(() => {
         toast.error("Failed to copy URL");
       });
+  };
+
+  const handleDeleteSubmission = async (submissionId: string) => {
+    if (!confirm("Are you sure you want to delete this submission?")) return;
+    try {
+      const res = await fetch(`/api/delete?submission_id=${submissionId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error);
+      }
+      toast.success("Submission deleted successfully");
+      setSubmissions((prev) =>
+        prev.filter((submission) => submission.id !== submissionId)
+      );
+      if (finalSubmissionId === submissionId) {
+        setFinalSubmissionId(undefined);
+      }
+    } catch (err) {
+      toast.error(
+        err instanceof Error ? err.message : "An unexpected error occurred"
+      );
+    }
   };
 
   return (
@@ -353,47 +374,31 @@ export default function Submission() {
                               </Button>
                             )}
                           </TableCell>
-                          <TableCell className="flex flex-row items-center justify-center gap-1">
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  variant="link"
-                                  className="hover:bg-gray-300"
+                          <TableCell className="flex flex-col justify-items-center w-full h-full">
+                            <DropdownMenu>
+                              <div className="w-full h-full flex items-center justify-center">
+                                <DropdownMenuTrigger className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-3 hover:bg-gray-300">
+                                  <Ellipsis className="size-4" />
+                                </DropdownMenuTrigger>
+                              </div>
+                              <DropdownMenuContent>
+                                <DropdownMenuItem
                                   onClick={() => handleCopyUrl(submission.id)}
                                 >
-                                  <ClipboardIcon className="size-4" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Copy the URL</p>
-                              </TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  variant="link"
-                                  className="cursor-pointer hover:bg-gray-300"
+                                  Copy URL
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                  Download zip file
+                                </DropdownMenuItem>
+                                <DropdownMenuItem
+                                  onClick={() => {
+                                    handleDeleteSubmission(submission.id);
+                                  }}
                                 >
-                                  <Download className="size-4" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Download the zip file</p>
-                              </TooltipContent>
-                            </Tooltip>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  variant="link"
-                                  className="cursor-pointer hover:bg-gray-300"
-                                >
-                                  <Trash2 className="size-4" />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Delete this submission</p>
-                              </TooltipContent>
-                            </Tooltip>
+                                  Delete submission
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </TableCell>
                         </TableRow>
                       ))
