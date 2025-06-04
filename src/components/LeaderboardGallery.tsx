@@ -81,7 +81,7 @@ export default function LeaderboardGallery() {
 
   useEffect(() => {
     const socket = new WebSocket(
-      `ws://52.250.67.65:8000/ws/leaderboard`
+      `wss://52.250.67.65:8000/ws/leaderboard`
     );
 
     socket.onmessage = (event) => {
