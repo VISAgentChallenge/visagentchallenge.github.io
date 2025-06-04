@@ -110,10 +110,7 @@ export default function Submission() {
   }, []);
 
   useEffect(() => {
-    // use ws for local development
-    // const socket = new WebSocket(`ws://localhost:8000/ws/submissions`);
-    //use wss for production
-    const socket = new WebSocket(`wss://52.250.67.65:8000/ws/submissions`);
+    const socket = new WebSocket(`ws://52.250.67.65:8000/ws/submissions`);
 
     socket.onopen = () => {
       console.log("✅ WebSocket connected");
