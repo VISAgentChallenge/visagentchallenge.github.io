@@ -16,26 +16,35 @@ import {
   FileSymlink,
   FileText,
   Loader2,
-  Ellipsis,
+  ClipboardIcon,
+  Trash2,
+  Download,
+  MoreVertical,
 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import PDFViewer from "@/components/PDFViewer";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import type { Submission, SubmissionList } from "@/lib/types";
 import { toast } from "sonner";
 import HTMLViewer from "@/components/HTMLViewer";
+import { formatDateTime } from "@/lib/utils";
 import {
   DropdownMenu,
+  DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+  DialogDescription,
+} from "@/components/ui/dialog";
+
 export default function Submission() {
   const [finalSubmissionId, setFinalSubmissionId] = useState<string>();
   const [isMarkingAsFinal, setIsMarkingAsFinal] = useState(false);
@@ -50,9 +59,12 @@ export default function Submission() {
   const [viewerUrl, setViewerUrl] = useState<string | null>(null);
   const [errorLog, setErrorLog] = useState<string | null>(null);
 
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [submissionToDelete, setSubmissionToDelete] = useState<string | null>(null);
+
   const hostedURL =
-    process.env.NEXT_PUBLIC_URL ||
-    "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
+    process.env.NEXT_PUBLIC_URL || "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
 
   // useEffect(() => {
   //   const fetchSubmissions = async () => {
@@ -95,9 +107,7 @@ export default function Submission() {
 
       const data = (await res.json()) as SubmissionList;
       setSubmissions(data.submissions || []);
-      setFinalSubmissionId(
-        data.submissions.find((s: Submission) => s.isFinal)?.id
-      );
+      setFinalSubmissionId(data.submissions.find((s: Submission) => s.isFinal)?.id);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -161,9 +171,7 @@ export default function Submission() {
       const log = await res.text();
       setErrorLog(log);
     } catch (err) {
-      setErrorLog(
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      );
+      setErrorLog(err instanceof Error ? err.message : "An unexpected error occurred");
     }
   };
 
@@ -186,8 +194,7 @@ export default function Submission() {
     } catch (err) {
       setIsMarkingAsFinal(false);
       toast.error("Failed to mark as final", {
-        description:
-          err instanceof Error ? err.message : "An unexpected error occurred",
+        description: err instanceof Error ? err.message : "An unexpected error occurred",
       });
     }
   };
@@ -204,7 +211,7 @@ export default function Submission() {
   };
 
   const handleDeleteSubmission = async (submissionId: string) => {
-    if (!confirm("Are you sure you want to delete this submission?")) return;
+    setIsDeleting(true);
     try {
       const res = await fetch(`/api/delete?submission_id=${submissionId}`, {
         method: "DELETE",
@@ -214,16 +221,14 @@ export default function Submission() {
         throw new Error(data.error);
       }
       toast.success("Submission deleted successfully");
-      setSubmissions((prev) =>
-        prev.filter((submission) => submission.id !== submissionId)
-      );
+      setSubmissions((prev) => prev.filter((submission) => submission.id !== submissionId));
       if (finalSubmissionId === submissionId) {
         setFinalSubmissionId(undefined);
       }
     } catch (err) {
-      toast.error(
-        err instanceof Error ? err.message : "An unexpected error occurred"
-      );
+      toast.error(err instanceof Error ? err.message : "An unexpected error occurred");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -235,14 +240,12 @@ export default function Submission() {
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Your submissions</h2>
             <span>
-              The below leaderboard shows your submissions. Click on the
-              submission ID to view the PDF/HTML output. Please select one
-              submission in&nbsp;
+              The below leaderboard shows your submissions. Click on the submission ID to view the
+              PDF/HTML output. Please select one submission in&nbsp;
               <span className="bg-green-100 p-1 rounded">SUCCESS</span>
-              &nbsp;status as the final submission to display on the public
-              leaderboard, and you can update it anytime. Please{" "}
-              <u>refresh the page</u> if there's a delay in the leaderboard
-              updating.
+              &nbsp;status as the final submission to display on the public leaderboard, and you can
+              update it anytime. Please <u>refresh the page</u> if there's a delay in the
+              leaderboard updating.
             </span>
             {loading ? (
               <div className="flex justify-center items-center gap-2 w-full h-50 text-gray-500 bg-gray-100 rounded-md p-4 text-sm">
@@ -259,43 +262,29 @@ export default function Submission() {
                 <Table className="border-collapse">
                   <TableHeader>
                     <TableRow className="bg-gray-100">
-                      <TableHead className="px-4 bg-gray-100">
-                        Submitted on
-                      </TableHead>
-                      <TableHead className="text-center bg-gray-100">
-                        Status
-                      </TableHead>
-                      <TableHead className="text-center bg-gray-100">
-                        Time (s)
-                      </TableHead>
-                      <TableHead className="text-center bg-gray-100">
-                        View
-                      </TableHead>
-                      <TableHead className="text-center bg-gray-100"></TableHead>
+                      <TableHead className="px-4 bg-gray-100">Submitted on</TableHead>
+                      <TableHead className="text-center bg-gray-100">Status</TableHead>
+                      <TableHead className="text-center bg-gray-100">Time (s)</TableHead>
+                      <TableHead className="text-center bg-gray-100">View</TableHead>
+                      <TableHead className="text-center bg-gray-100 w-10"></TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {submissions.length === 0 ? (
                       <TableRow>
-                        <TableCell
-                          colSpan={4}
-                          className="text-center py-8 text-gray-400"
-                        >
+                        <TableCell colSpan={4} className="text-center py-8 text-gray-400">
                           <span className="flex flex-col justify-center items-center gap-2">
                             <AlertCircle />
-                            No submissions present. Upload a zip file to get
-                            started.
+                            No submissions present. Upload a zip file to get started.
                           </span>
                         </TableCell>
                       </TableRow>
                     ) : (
                       submissions.map((submission) => (
-                        <TableRow key={submission.id} className="group">
+                        <TableRow key={submission.id} className="group w-10">
                           <TableCell className="pl-4">
                             <div className="flex gap-2 w-[180px]">
-                              {new Date(submission.created_at).toLocaleString(
-                                "en-US"
-                              )}
+                              {formatDateTime(submission.created_at)}
                               {finalSubmissionId !== submission.id && (
                                 <span
                                   onClick={(e) => {
@@ -355,46 +344,44 @@ export default function Submission() {
                               <Button
                                 variant="link"
                                 className="cursor-pointer text-red-600"
-                                onClick={() =>
-                                  handleOpenErrorLog(submission.id)
-                                }
+                                onClick={() => handleOpenErrorLog(submission.id)}
                               >
                                 <AlertCircle />
                                 Logs
                               </Button>
                             ) : (
-                              <Button
-                                variant="link"
-                                className="cursor-not-allowed"
-                                disabled
-                              >
+                              <Button variant="link" className="cursor-not-allowed" disabled>
                                 <FileText />
                                 Unavailable
                               </Button>
                             )}
                           </TableCell>
-                          <TableCell className="flex flex-col justify-items-center w-full h-full">
+                          <TableCell className="text-right w-10">
                             <DropdownMenu>
-                              <div className="w-full h-full flex items-center justify-center">
-                                <DropdownMenuTrigger className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-3 hover:bg-gray-300">
-                                  <Ellipsis className="size-4" />
-                                </DropdownMenuTrigger>
-                              </div>
-                              <DropdownMenuContent>
-                                <DropdownMenuItem
-                                  onClick={() => handleCopyUrl(submission.id)}
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="invisible group-hover:visible data-[state=open]:visible h-8 w-8 p-0"
                                 >
-                                  Copy URL
+                                  <MoreVertical className="size-5" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end" className="w-48">
+                                <DropdownMenuItem onClick={() => handleCopyUrl(submission.id)}>
+                                  <ClipboardIcon className="size-4 mr-2" /> Copy URL
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                  Download zip file
+                                  <Download className="size-4 mr-2" /> Download zip
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
+                                  variant="destructive"
                                   onClick={() => {
-                                    handleDeleteSubmission(submission.id);
+                                    setSubmissionToDelete(submission.id);
+                                    setDeleteDialogOpen(true);
                                   }}
                                 >
-                                  Delete submission
+                                  <Trash2 className="size-4 mr-2" /> Delete submission
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
@@ -409,10 +396,7 @@ export default function Submission() {
           </div>
 
           {/* PDF Viewer Sheet */}
-          <Sheet
-            open={showSubmissionSheet}
-            onOpenChange={setShowSubmissionSheet}
-          >
+          <Sheet open={showSubmissionSheet} onOpenChange={setShowSubmissionSheet}>
             <SheetContent
               side="right"
               className="h-full min-w-[50vw] max-w-3xl flex flex-col border-none"
@@ -422,12 +406,8 @@ export default function Submission() {
                 <SheetTitle>Submission Viewer</SheetTitle>
               </SheetHeader>
               <div className="flex-1 min-h-0 border-t border-gray-200">
-                {viewerUrl && viewerUrl.endsWith(".pdf") && (
-                  <PDFViewer pdfUrl={viewerUrl} />
-                )}
-                {viewerUrl && viewerUrl.endsWith(".html") && (
-                  <HTMLViewer htmlUrl={viewerUrl} />
-                )}
+                {viewerUrl && viewerUrl.endsWith(".pdf") && <PDFViewer pdfUrl={viewerUrl} />}
+                {viewerUrl && viewerUrl.endsWith(".html") && <HTMLViewer htmlUrl={viewerUrl} />}
               </div>
             </SheetContent>
           </Sheet>
@@ -459,14 +439,57 @@ export default function Submission() {
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Submit Here</h2>
             <span>
-              You can submit a new task here. The submission will be
-              automatically graded and the results will be shown in the
-              leaderboard above.
+              You can submit a new task here. The submission will be automatically graded and the
+              results will be shown in the leaderboard above.
             </span>
             <ZipUploader />
           </div>
         </div>
       </div>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            document.body.style.pointerEvents = ""; // Resolves a known issue with Dialog
+          }}
+        >
+          <DialogHeader>
+            <DialogTitle>Delete Submission</DialogTitle>
+          </DialogHeader>
+          <DialogDescription>
+            Are you sure you want to delete this submission? This action cannot be undone.
+          </DialogDescription>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="secondary" disabled={isDeleting}>
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              variant="destructive"
+              onClick={async () => {
+                if (submissionToDelete) {
+                  await handleDeleteSubmission(submissionToDelete);
+                  setDeleteDialogOpen(false);
+                  setSubmissionToDelete(null);
+                }
+              }}
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" /> Deleting
+                </>
+              ) : (
+                <>
+                  <Trash2 className="size-4 mr-1" />
+                  Delete
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
