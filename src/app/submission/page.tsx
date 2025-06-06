@@ -10,17 +10,7 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import {
-  AlertCircle,
-  Check,
-  FileSymlink,
-  FileText,
-  Loader2,
-  ClipboardIcon,
-  Trash2,
-  Download,
-  MoreVertical,
-} from "lucide-react";
+import { AlertCircle, Check, FileSymlink, FileText, Loader2, Trash2 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import PDFViewer from "@/components/PDFViewer";
@@ -30,12 +20,6 @@ import { toast } from "sonner";
 import HTMLViewer from "@/components/HTMLViewer";
 import { formatDateTime } from "@/lib/utils";
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
-import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -44,6 +28,7 @@ import {
   DialogClose,
   DialogDescription,
 } from "@/components/ui/dialog";
+import FinalizedSubmissionLinks from "@/components/FinalizedSubmissionLinks";
 
 export default function Submission() {
   const [finalSubmissionId, setFinalSubmissionId] = useState<string>();
@@ -62,9 +47,6 @@ export default function Submission() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [submissionToDelete, setSubmissionToDelete] = useState<string | null>(null);
-
-  const hostedURL =
-    process.env.NEXT_PUBLIC_URL || "https://purple-glacier-014f19d1e.6.azurestaticapps.net";
 
   // useEffect(() => {
   //   const fetchSubmissions = async () => {
@@ -199,17 +181,6 @@ export default function Submission() {
     }
   };
 
-  const handleCopyUrl = (submissionId: string) => {
-    navigator.clipboard
-      .writeText(`${hostedURL}/api/file/${submissionId}/output.pdf`)
-      .then(() => {
-        toast.success("URL copied to clipboard");
-      })
-      .catch(() => {
-        toast.error("Failed to copy URL");
-      });
-  };
-
   const handleDeleteSubmission = async (submissionId: string) => {
     setIsDeleting(true);
     try {
@@ -235,7 +206,7 @@ export default function Submission() {
   return (
     <div className="p-12 flex flex-col gap-4">
       <div className="py-12 px-4">
-        <div className="flex flex-col max-w-5xl mx-auto gap-24">
+        <div className="flex flex-col max-w-5xl mx-auto gap-12">
           {/* individual leaderboard */}
           <div className="flex flex-col gap-4">
             <h2 className="text-3xl font-bold">Your submissions</h2>
@@ -357,34 +328,19 @@ export default function Submission() {
                             )}
                           </TableCell>
                           <TableCell className="text-right w-10">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="invisible group-hover:visible data-[state=open]:visible h-8 w-8 p-0"
-                                >
-                                  <MoreVertical className="size-5" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end" className="w-48">
-                                <DropdownMenuItem onClick={() => handleCopyUrl(submission.id)}>
-                                  <ClipboardIcon className="size-4 mr-2" /> Copy URL
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                  <Download className="size-4 mr-2" /> Download zip
-                                </DropdownMenuItem>
-                                <DropdownMenuItem
-                                  variant="destructive"
-                                  onClick={() => {
-                                    setSubmissionToDelete(submission.id);
-                                    setDeleteDialogOpen(true);
-                                  }}
-                                >
-                                  <Trash2 className="size-4 mr-2" /> Delete submission
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
+                            {(submission.status === "SUCCESS" ||
+                              submission.status === "FAILED") && (
+                              <Button
+                                variant="link"
+                                className="text-red-500 hover:bg-red-100 transition-none rounded-sm invisible group-hover:visible cursor-pointer"
+                                onClick={() => {
+                                  setSubmissionToDelete(submission.id);
+                                  setDeleteDialogOpen(true);
+                                }}
+                              >
+                                <Trash2 className="size-4" />
+                              </Button>
+                            )}
                           </TableCell>
                         </TableRow>
                       ))
@@ -394,6 +350,10 @@ export default function Submission() {
               </div>
             )}
           </div>
+
+          {submissions.length > 0 && (
+            <FinalizedSubmissionLinks finalSubmissionId={finalSubmissionId} />
+          )}
 
           {/* PDF Viewer Sheet */}
           <Sheet open={showSubmissionSheet} onOpenChange={setShowSubmissionSheet}>

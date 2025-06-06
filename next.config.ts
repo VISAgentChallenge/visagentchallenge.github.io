@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         source: "/api/output/:submission_id",
         destination: `${process.env.API_ENDPOINT}/output/:submission_id`,
       },
+      {
+        source: "/api/submission/:submission_id",
+        destination: `${process.env.API_ENDPOINT}/submission/:submission_id `,
+      },
     ];
   },
 };
