@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   try {
     // Forward the file to the FastAPI backend
-    const apiRes = await fetch(`${process.env.API_ENDPOINT}/submit`, {
+    const apiRes = await fetch(`${process.env.API_ENDPOINT}/submit/submission`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${session.accessToken}`,
