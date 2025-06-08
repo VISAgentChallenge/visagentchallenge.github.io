@@ -15,15 +15,15 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/leaderboard",
-        destination: `${process.env.API_ENDPOINT}/leaderboard`,
+        destination: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/leaderboard`,
       },
       {
         source: "/api/output/:submission_id",
-        destination: `${process.env.API_ENDPOINT}/output/:submission_id`,
+        destination: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/output/:submission_id`,
       },
       {
         source: "/api/submission/:submission_id",
-        destination: `${process.env.API_ENDPOINT}/submission/:submission_id `,
+        destination: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/submission/:submission_id `,
       },
     ];
   },
