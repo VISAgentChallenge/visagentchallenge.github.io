@@ -1,13 +1,11 @@
 import { AlertCircle, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 
-interface HTMLViewerProps {
-  htmlUrl: string;
-}
-
 type Status = "loading" | "error" | "success";
 
-const HTMLViewer: React.FC<HTMLViewerProps> = ({ htmlUrl }) => {
+const HTMLViewer: React.FC<{
+  htmlUrl: string;
+}> = ({ htmlUrl }) => {
   const [status, setStatus] = useState<Status>("loading");
 
   let overlay: React.ReactNode = null;

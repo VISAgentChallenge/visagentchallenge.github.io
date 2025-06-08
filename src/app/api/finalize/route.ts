@@ -19,7 +19,6 @@ export async function POST(req: NextRequest) {
   const backendUrl = `${process.env.API_ENDPOINT}/finalize/submission?submission_id=${submission_id}`;
 
   try {
-    // Fetch the error log from the backend
     const res = await fetch(backendUrl, {
       method: "POST",
       headers: {

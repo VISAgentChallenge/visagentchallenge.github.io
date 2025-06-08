@@ -13,11 +13,11 @@ export async function GET(
 
   const { submission_id } = await params;
 
-  // Construct the backend URL for the PDF file
+  // Construct the backend URL for the HTML file
   const backendUrl = `${process.env.API_ENDPOINT}/file/${submission_id}/output.html`;
 
   try {
-    // Fetch the PDF from the backend
+    // Fetch the HTML file from the backend
     const apiRes = await fetch(backendUrl, {
       method: "GET",
       headers: {
@@ -32,10 +32,10 @@ export async function GET(
       return NextResponse.json({ error: errMessage }, { status: apiRes.status });
     }
 
-    // Get the PDF as a buffer
+    // Get the HTML file as a buffer
     const pdfBuffer = await apiRes.arrayBuffer();
 
-    // Return the PDF with appropriate headers
+    // Return the HTML file with appropriate headers
     return new NextResponse(Buffer.from(pdfBuffer), {
       status: 200,
       headers: {

@@ -27,6 +27,7 @@ export async function DELETE(req: NextRequest) {
       },
     });
 
+    // Handle errors
     if (!res.ok) {
       const error = await res.json();
       const errMessage = error.detail || "Failed to delete submission";

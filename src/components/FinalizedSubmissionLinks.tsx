@@ -4,11 +4,9 @@ import { Copy } from "lucide-react";
 import { toast } from "sonner";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-interface Props {
+const FinalizedSubmissionLinks: React.FC<{
   finalSubmissionId?: string;
-}
-
-const FinalizedSubmissionLinks: React.FC<Props> = ({ finalSubmissionId }) => {
+}> = ({ finalSubmissionId }) => {
   const outputUrl = finalSubmissionId
     ? `${window.location.origin}/api/output/${finalSubmissionId}`
     : "";
