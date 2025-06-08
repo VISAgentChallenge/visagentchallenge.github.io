@@ -29,6 +29,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import FinalizedSubmissionLinks from "@/components/FinalizedSubmissionLinks";
+import Teammates from "@/components/Teammates";
 
 export default function Submission() {
   const [finalSubmissionId, setFinalSubmissionId] = useState<string>();
@@ -351,49 +352,10 @@ export default function Submission() {
             )}
           </div>
 
+          {/* finalized submission links */}
           {submissions.length > 0 && (
             <FinalizedSubmissionLinks finalSubmissionId={finalSubmissionId} />
           )}
-
-          {/* PDF Viewer Sheet */}
-          <Sheet open={showSubmissionSheet} onOpenChange={setShowSubmissionSheet}>
-            <SheetContent
-              side="right"
-              className="h-full min-w-[50vw] max-w-3xl flex flex-col border-none"
-              onOpenAutoFocus={(e) => e.preventDefault()}
-            >
-              <SheetHeader>
-                <SheetTitle>Submission Viewer</SheetTitle>
-              </SheetHeader>
-              <div className="flex-1 min-h-0 border-t border-gray-200">
-                {viewerUrl && viewerUrl.endsWith(".pdf") && <PDFViewer pdfUrl={viewerUrl} />}
-                {viewerUrl && viewerUrl.endsWith(".html") && <HTMLViewer htmlUrl={viewerUrl} />}
-              </div>
-            </SheetContent>
-          </Sheet>
-
-          {/* Error Log Sheet */}
-          <Sheet open={showErrorSheet} onOpenChange={setShowErrorSheet}>
-            <SheetContent
-              side="right"
-              className="h-full min-w-[50vw] max-w-2xl flex flex-col"
-              onOpenAutoFocus={(e) => e.preventDefault()}
-            >
-              <SheetHeader>
-                <SheetTitle>Submission Logs</SheetTitle>
-              </SheetHeader>
-              <div className="flex-1 min-h-0 overflow-auto bg-black text-white p-4 rounded mx-4 mb-4">
-                {errorLog === null ? (
-                  <div className="flex gap-2">
-                    <Loader2 className="animate-spin" />
-                    <pre>Loading logs</pre>
-                  </div>
-                ) : (
-                  <pre>{errorLog}</pre>
-                )}
-              </div>
-            </SheetContent>
-          </Sheet>
 
           {/* submit portal */}
           <div className="flex flex-col gap-4">
@@ -404,8 +366,51 @@ export default function Submission() {
             </span>
             <ZipUploader />
           </div>
+
+          {/* teammates */}
+          <Teammates />
         </div>
       </div>
+
+      {/* PDF Viewer Sheet */}
+      <Sheet open={showSubmissionSheet} onOpenChange={setShowSubmissionSheet}>
+        <SheetContent
+          side="right"
+          className="h-full min-w-[50vw] max-w-3xl flex flex-col border-none"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
+          <SheetHeader>
+            <SheetTitle>Submission Viewer</SheetTitle>
+          </SheetHeader>
+          <div className="flex-1 min-h-0 border-t border-gray-200">
+            {viewerUrl && viewerUrl.endsWith(".pdf") && <PDFViewer pdfUrl={viewerUrl} />}
+            {viewerUrl && viewerUrl.endsWith(".html") && <HTMLViewer htmlUrl={viewerUrl} />}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      {/* Error Log Sheet */}
+      <Sheet open={showErrorSheet} onOpenChange={setShowErrorSheet}>
+        <SheetContent
+          side="right"
+          className="h-full min-w-[50vw] max-w-2xl flex flex-col"
+          onOpenAutoFocus={(e) => e.preventDefault()}
+        >
+          <SheetHeader>
+            <SheetTitle>Submission Logs</SheetTitle>
+          </SheetHeader>
+          <div className="flex-1 min-h-0 overflow-auto bg-black text-white p-4 rounded mx-4 mb-4">
+            {errorLog === null ? (
+              <div className="flex gap-2">
+                <Loader2 className="animate-spin" />
+                <pre>Loading logs</pre>
+              </div>
+            ) : (
+              <pre>{errorLog}</pre>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
 
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent
