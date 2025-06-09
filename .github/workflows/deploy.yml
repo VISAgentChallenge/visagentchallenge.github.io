@@ -37,18 +37,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build
+      - name: Configure Pages for Next.js
+        uses: actions/configure-pages@v5
+        with:
+          static_site_generator: next
+
+      - name: Build with Next.js
         run: pnpm run build
         env:
           NEXT_PUBLIC_API_ENDPOINT: ${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
-          AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
-          AUTH_TRUST_HOST: ${{ secrets.AUTH_TRUST_HOST }}
-          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
-
-      - name: Export static site
-        run: pnpm run export
+          AUTH_SECRET:                ${{ secrets.AUTH_SECRET }}
+          AUTH_GOOGLE_ID:             ${{ secrets.AUTH_GOOGLE_ID }}
+          AUTH_GOOGLE_SECRET:         ${{ secrets.AUTH_GOOGLE_SECRET }}
+          AUTH_TRUST_HOST:            ${{ secrets.AUTH_TRUST_HOST }}
+          NEXTAUTH_URL:               ${{ secrets.NEXTAUTH_URL }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
